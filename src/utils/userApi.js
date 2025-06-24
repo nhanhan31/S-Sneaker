@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { BASE_URL } from './url'; // Thêm dòng này
 
 export const getUserDetail = async (id, token) => {
     try {
-        const response = await axios.get(`https://api-for-be.onrender.com/api/get-user-detail/${id}`, {
+        const response = await axios.get(`${BASE_URL}/api/get-user-detail/${id}`, {
             headers: {
                 "Content-Type": "application/json",
                 ...(token && { Authorization: `Bearer ${token}` }),
@@ -25,7 +26,7 @@ export const getUserDetail = async (id, token) => {
 export const updateUser = async (id, userInfo, token) => {
     try {
         const response = await axios.put(
-            `https://api-for-be.onrender.com/api/update-user/${id}`,
+            `${BASE_URL}/api/update-user/${id}`,
             userInfo,
             {
                 headers: {

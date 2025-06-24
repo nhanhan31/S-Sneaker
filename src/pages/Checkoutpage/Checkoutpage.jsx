@@ -18,6 +18,8 @@ const Checkoutpage = () => {
     const [wardList, setWardList] = useState([]);
     const [provinceId, setProvinceId] = useState(null);
     const [districtId, setDistrictId] = useState(null);
+    const [wardId, setWardId] = useState(null);
+    const [wardCode, setWardCode] = useState(null);
     const [initialUserInfo, setInitialUserInfo] = useState({});
     const [isChanged, setIsChanged] = useState(false);
 
@@ -61,9 +63,9 @@ const Checkoutpage = () => {
                 const info = {
                     firstName: u.firstName,
                     lastName: u.lastName,
-                    phone: u.phoneNumber,
+                    phoneNumber: u.phoneNumber,
                     address: u.address,
-                    ward: u.wardCode,
+                    wardCode: u.wardCode ? String(u.wardCode) : undefined,
                     district: Number(u.district) || undefined,
                     province: Number(u.province) || undefined,
                 };
@@ -74,6 +76,8 @@ const Checkoutpage = () => {
                 });
                 setProvinceId(Number(u.province) || null);
                 setDistrictId(Number(u.district) || null);
+                setWardId(Number(u.wardCode) || null);
+                setWardCode(u.wardCode ? String(u.wardCode) : null);
             } else {
                 message.error("Không lấy được thông tin người dùng!");
             }
@@ -103,8 +107,10 @@ const Checkoutpage = () => {
                                 getWards(districtNum).then(res3 => {
                                     if (res3.ok && Array.isArray(res3.data.data)) {
                                         setWardList(res3.data.data);
+                                        // Đảm bảo wardCode là string nếu value của Select.Option là string
                                         if (user?.wardCode) {
-                                            form.setFieldsValue({ ward: user.wardCode });
+                                            form.setFieldsValue({ wardCode: String(user.wardCode) });
+                                            setWardCode(String(user.wardCode));
                                         }
                                     }
                                 });
@@ -120,7 +126,7 @@ const Checkoutpage = () => {
     const handleProvinceChange = (value) => {
         const id = Number(value);
         setProvinceId(id);
-        form.setFieldsValue({ province: id, district: undefined, ward: undefined });
+        form.setFieldsValue({ province: id, district: undefined, wardCode: undefined });
         setDistrictList([]);
         setWardList([]);
         setDistrictId(null);
@@ -137,12 +143,17 @@ const Checkoutpage = () => {
     const handleDistrictChange = (value) => {
         const id = Number(value);
         setDistrictId(id);
-        form.setFieldsValue({ district: id, ward: undefined });
+        form.setFieldsValue({ district: id, wardCode: undefined });
         setWardList([]);
         setFormLoading(true);
         getWards(id).then(res => {
             if (res.ok && Array.isArray(res.data.data)) {
                 setWardList(res.data.data);
+                // Nếu user đã có wardCode và district trùng, set lại ward
+                if (user?.wardCode && id === Number(user.district)) {
+                    form.setFieldsValue({ wardCode: String(user.wardCode) });
+                    setWardCode(String(user.wardCode));
+                }
             }
             setFormLoading(false);
         }).catch(() => setFormLoading(false));
@@ -156,7 +167,6 @@ const Checkoutpage = () => {
         setLoading(true);
         const result = await createNewOrder({
             userId: user.userId,
-            cart,
             token,
             promotionId: null
         });
@@ -176,25 +186,30 @@ const Checkoutpage = () => {
                 okText: "Yes",
                 cancelText: "No",
                 onOk: async () => {
+                    // Lấy đúng trường từ form
                     const userInfo = form.getFieldsValue([
                         "firstName",
                         "lastName",
-                        "phone",
+                        "phoneNumber",
                         "address",
-                        "ward",
+                        "wardCode",
                         "district",
                         "province"
                     ]);
                     try {
-                        await updateUser(user.userId, userInfo, token);
+                        // Gửi lên backend với trường wardCode
+                        await updateUser(user.userId, { ...userInfo }, token);
                         // Cập nhật lại user trong localStorage
                         const userLocal = JSON.parse(localStorage.getItem("user") || "{}");
                         localStorage.setItem("user", JSON.stringify({
                             ...userLocal,
-                            ...userInfo,
-                            wardCode: userInfo.ward // nếu backend trả về khác thì lấy từ response
+                            ...userInfo
                         }));
+                        // Sau khi lưu thành công
                         message.success("Đã lưu thông tin giao hàng!");
+                        form.setFieldsValue({ saveInfo: false });
+                        setIsChanged(false); // Nếu bạn dùng isChanged để điều khiển disabled
+                        form.resetFields(['saveInfo']); // Đảm bảo checkbox bỏ check
                     } catch {
                         message.error("Lưu thông tin thất bại!");
                     }
@@ -211,9 +226,9 @@ const Checkoutpage = () => {
     const userInfo = form.getFieldsValue([
         "firstName",
         "lastName",
-        "phone",
+        "phoneNumber",
         "address",
-        "ward",
+        "wardCode",
         "district",
         "province"
     ]);
@@ -223,9 +238,9 @@ const Checkoutpage = () => {
             const current = form.getFieldsValue([
                 "firstName",
                 "lastName",
-                "phone",
+                "phoneNumber",
                 "address",
-                "ward",
+                "wardCode",
                 "district",
                 "province"
             ]);
@@ -237,6 +252,12 @@ const Checkoutpage = () => {
         });
         return unsubscribe;
     }, [form, initialUserInfo]);
+
+    // Hàm lấy tên phường từ code
+    const getWardName = (wardCode) => {
+        const found = wardList.find(w => String(w.WardCode) === String(wardCode));
+        return found ? found.WardName : wardCode;
+    };
 
     return (
         <div style={{ display: "flex", gap: 32, padding: 32, background: "#fff", minHeight: "70vh" }}>
@@ -250,9 +271,9 @@ const Checkoutpage = () => {
                             const current = form.getFieldsValue([
                                 "firstName",
                                 "lastName",
-                                "phone",
+                                "phoneNumber", // Đổi từ phone -> phoneNumber
                                 "address",
-                                "ward",
+                                "wardCode",
                                 "district",
                                 "province"
                             ]);
@@ -281,7 +302,7 @@ const Checkoutpage = () => {
                                 <Input placeholder="Last name" size="large" style={{ background: "#fff" }} />
                             </Form.Item>
                         </div>
-                        <Form.Item name="phone">
+                        <Form.Item name="phoneNumber">
                             <Input placeholder="Phone" size="large" style={{ background: "#fff" }} />
                         </Form.Item>
                         <Form.Item name="address">
@@ -313,6 +334,7 @@ const Checkoutpage = () => {
                                 disabled={!provinceId}
                                 optionFilterProp="children"
                             >
+                               
                                 {districtList.map(item => (
                                     <Select.Option key={item.DistrictID} value={item.DistrictID}>
                                         {item.DistrictName}
@@ -320,22 +342,27 @@ const Checkoutpage = () => {
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Form.Item name="ward" label="Ward" rules={[{ required: true, message: "Chọn phường/xã" }]}>
+                        <Form.Item name="wardCode" label="Ward" rules={[{ required: true, message: "Chọn phường/xã" }]}>
                             <Select
                                 showSearch
                                 placeholder="Chọn phường/xã"
-                                onChange={value => form.setFieldsValue({ ward: value })}
                                 loading={districtId && wardList.length === 0}
                                 disabled={!districtId}
+                                value={wardCode || undefined}
                                 optionFilterProp="children"
+                                onChange={value => setWardCode(value)}
                             >
+                                
                                 {wardList.map(item => (
-                                    <Select.Option key={item.WardCode} value={item.WardCode}>
+                                    <Select.Option key={item.WardCode} value={String(item.WardCode)}>
                                         {item.WardName}
                                     </Select.Option>
                                 ))}
                             </Select>
                         </Form.Item>
+                        <div>
+                         
+                        </div>
                         <Form.Item name="saveInfo" valuePropName="checked" style={{ marginBottom: 24 }}>
                             <ConfigProvider
                                 theme={{

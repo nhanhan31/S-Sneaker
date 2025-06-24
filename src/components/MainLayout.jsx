@@ -122,7 +122,7 @@ const MainLayout = () => {
       <Header className="header" style={{ background: 'rgb(238, 238, 238)', padding: '0 30px', display: 'flex', alignItems: 'center', position: 'sticky', top: 0, zIndex: 1000, opacity: 0.90, justifyContent: 'space-between' }}>
         <div className="logo" style={{ fontWeight: 'bold', fontSize: 22, marginRight: 32, cursor: 'pointer' }} onClick={() => navigate('/')}>S-SNEAKER</div>
         {/* Ẩn menu khi ở /user */}
-        {location.pathname !== "/user" && (
+        {!location.pathname.startsWith("/user") && (
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <Menu
               mode="horizontal"

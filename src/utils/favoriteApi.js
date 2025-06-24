@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "./url"; // Thêm dòng này
 
 export async function addProductToFavorite({ userId, productId, token }) {
   try {
     const res = await axios.post(
-      `https://api-for-be.onrender.com/api/add-product-to-favorite/${productId}`,
+      `${BASE_URL}/api/add-product-to-favorite/${productId}`,
       { userId },
       {
         headers: {
@@ -24,7 +25,7 @@ export async function addProductToFavorite({ userId, productId, token }) {
 export async function deleteFavoriteByProductId({ userId, productId, token }) {
   try {
     const res = await axios.delete(
-      `https://api-for-be.onrender.com/api/delete-favorite-item/${productId}`,
+      `${BASE_URL}/api/delete-favorite-item/${productId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +46,7 @@ export async function deleteFavoriteByProductId({ userId, productId, token }) {
 export async function getFavoriteByUserId({ userId, token }) {
   try {
     const res = await axios.get(
-      `https://api-for-be.onrender.com/api/get-favorite-item-by-user-id/${userId}`,
+      `${BASE_URL}/api/get-favorite-item-by-user-id/${userId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -62,7 +63,7 @@ export async function getFavoriteByUserId({ userId, token }) {
 export async function deleteAllFavoriteByUserId({ userId, token }) {
   try {
     const res = await axios.delete(
-      `https://api-for-be.onrender.com/api/delete-all-favorite-item/${userId}`,
+      `${BASE_URL}/api/delete-all-favorite-item/${userId}`,
       {
         headers: {
           "Content-Type": "application/json",

@@ -1,15 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "./url"; // Thêm dòng này
 
 export async function createNewOrder({ userId, cart, token, promotionId = null }) {
   try {
     const res = await axios.post(
-      `https://api-for-be.onrender.com/api/create-new-order/${userId}/promotion/${promotionId}`,
-      {
-        cart: cart.map(item => ({
-          productId: item.id,
-          quantity: item.quantity
-        }))
-      },
+      `${BASE_URL}/api/create-new-order/${userId}/promotion/${promotionId}`,
+      {},
       {
         headers: {
           "Content-Type": "application/json",
@@ -25,3 +21,20 @@ export async function createNewOrder({ userId, cart, token, promotionId = null }
     };
   }
 }
+
+export const getOrdersByUserId = async (userId, token) => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/api/get-order-by-user-id/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (res.data.errCode === 0 && Array.isArray(res.data.order)) {
+      return res.data.order;
+    }
+    return [];
+  } catch {
+    return [];
+  }
+};

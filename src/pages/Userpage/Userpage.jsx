@@ -1,10 +1,9 @@
 import React from "react";
-import { Layout, Menu, Avatar, Typography, Divider } from "antd";
-import { UserOutlined, EditOutlined } from "@ant-design/icons";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Layout, Menu, Avatar, Typography } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 
 const { Sider, Content } = Layout;
-const { Title, Text } = Typography;
 
 const Userpage = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -12,12 +11,17 @@ const Userpage = () => {
   const location = useLocation();
 
   const menuItems = [
-    { key: "user", label: "User" },
-    { key: "edit", label: "Edit" },
+    { key: "user", label: "Infomation" },
+    { key: "edit", label: "Edit Infomation" },
+    { key: "order", label: "Order" },
   ];
 
   const selectedKey =
-    location.pathname.includes("edit") ? "edit" : "user";
+    location.pathname.includes("edit")
+      ? "edit"
+      : location.pathname.includes("order")
+      ? "order"
+      : "user";
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#fff" }}>
@@ -48,65 +52,15 @@ const Userpage = () => {
           style={{ border: "none", background: "transparent" }}
           items={menuItems}
           onClick={({ key }) => {
-            if (key === "edit") navigate("/user-setting");
+            if (key === "edit") navigate("/user/edit-info");
             if (key === "user") navigate("/user");
+            if (key === "order") navigate("/user/order");
           }}
         />
       </Sider>
       <Layout>
         <Content style={{ padding: "32px 40px 0 40px", background: "#fff" }}>
-          <div style={{ borderBottom: "1px solid #eee", marginBottom: 24 }}>
-            <Title level={3} style={{ margin: 0, color: "#1a237e", fontWeight: 700 }}>
-              User Manage
-            </Title>
-            <div style={{ color: "#888", margin: "8px 0 16px 0" }}>
-              Home / User
-            </div>
-          </div>
-          <div style={{ marginBottom: 24 }}>
-            <Text strong>Email :</Text>{" "}
-            <Text>{user?.email || "N/A"}</Text>
-            <br />
-            <Text strong>User id :</Text>{" "}
-            <Text>{user?.userId || "N/A"}</Text>
-          </div>
-          <Title level={4} style={{ fontWeight: 700, marginBottom: 24 }}>
-            {user?.firstName} {user?.lastName}
-          </Title>
-          <div style={{ display: "flex", gap: 64 }}>
-            <div style={{ minWidth: 220 }}>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Full Name</Text>
-                <div>{user?.firstName} {user?.lastName}</div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Gender</Text>
-                <div>{user?.gender || "Male"}</div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Language</Text>
-                <div>{user?.language || "English"}</div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Phone</Text>
-                <div>{user?.phoneNumber || "N/A"}</div>
-              </div>
-            </div>
-            <div style={{ minWidth: 220 }}>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Nick Name</Text>
-                <div>{user?.lastName || "N/A"}</div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Country</Text>
-                <div>{user?.country || "Viet Nam"}</div>
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <Text type="secondary">Address</Text>
-                <div>{user?.address || "N/A"}</div>
-              </div>
-            </div>
-          </div>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

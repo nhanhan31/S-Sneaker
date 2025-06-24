@@ -10,6 +10,9 @@ import Favoritepage from '../pages/Favoritepage/Favoritepage';
 import Loginpage from '../pages/Loginpage/Loginpage';
 import PrivateRoute from './PrivateRoute';
 import Userpage from '../pages/Userpage/Userpage';
+import UserContent from '../pages/Userpage/UserContent';
+import EditInfo from '../pages/Userpage/EditInfo';
+import OrderPage from '../pages/Userpage/OrderPage';
 
 const AppRoutes = () => (
   <Routes>
@@ -65,7 +68,11 @@ const AppRoutes = () => (
             <Userpage />
           </PrivateRoute>
         }
-      />
+      >
+        <Route index element={<UserContent />} />
+        <Route path="edit-info" element={<EditInfo />} />
+        <Route path="order" element={<OrderPage />} />
+      </Route>
       <Route path="*" element={<div>404 Not Found</div>} />
     </Route>
   </Routes>

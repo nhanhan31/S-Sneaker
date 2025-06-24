@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const BASE_URL = "https://api-for-be.onrender.com";
+import { BASE_URL } from "./url"; // Thêm dòng này
 
 // Lấy danh sách tỉnh/thành phố
 export const getProvinces = async () => {

@@ -8,11 +8,13 @@ import {
   deleteProductFromCart,
   deleteAllProductFromCart
 } from '../../utils/cartApi';
+import { fetchAllSizes } from '../../utils/sizeApi'; // Thêm dòng này
 
 const Cartpage = () => {
   const [cart, setCart] = useState([]);
   const [loadingId, setLoadingId] = useState(null);
   const [loadingAll, setLoadingAll] = useState(false);
+  const [sizes, setSizes] = useState([]);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -27,16 +29,33 @@ const Cartpage = () => {
     }
   }, []);
 
+  // Lấy danh sách size từ API khi load trang
+  useEffect(() => {
+    fetchAllSizes(token).then(data => {
+      setSizes(data); // data giờ là mảng sizes đúng chuẩn
+    });
+  }, [token]);
+
+  console.log('shoesData:', sizes); // Log để kiểm tra dữ liệu shoesData
+
   useEffect(() => {
     const cartData = JSON.parse(sessionStorage.getItem('cart') || '[]');
     setCart(cartData);
   }, []);
 
+  // Lấy tên size từ sizeId
+  const getSizeName = (sizeId) => {
+    // Ép kiểu về số để so sánh chắc chắn
+    const found = sizes.find(s => Number(s.sizeId) === Number(sizeId));
+    
+    return found ? found.sizeNumber : sizeId; // fallback nếu không tìm thấy
+  };
+
   // SỬA: Dùng productId thay cho id, productName thay cho name, productImage thay cho img, price là string
   const cartItems = cart.map(item => {
     const product = shoesData.find(p => p.productId === item.id);
     return product
-      ? { ...product, quantity: item.quantity }
+      ? { ...product, quantity: item.quantity, sizeId: item.sizeId }
       : null;
   }).filter(Boolean);
 
@@ -45,28 +64,29 @@ const Cartpage = () => {
   const total = subTotal + deliveryFee;
 
   // Thay đổi số lượng (PUT)
-  const handleQuantityChange = async (id, delta) => {
+  const handleQuantityChange = async (id, sizeId, delta) => {
     if (!user?.userId || !token) {
       message.error("Bạn cần đăng nhập!");
       return;
     }
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => i.id === id && i.sizeId === sizeId);
     if (!item) return;
     const newQuantity = item.quantity + delta;
 
-    setLoadingId(id);
+    setLoadingId(id + '-' + sizeId);
 
     if (newQuantity < 1) {
       // Gọi API xoá khi số lượng về 0
       const result = await deleteProductFromCart({
         userId: user.userId,
         productId: id,
+        sizeId, // truyền thêm sizeId
         token
       });
       setLoadingId(null);
 
       if (result.ok) {
-        const newCart = cart.filter(i => i.id !== id);
+        const newCart = cart.filter(i => !(i.id === id && i.sizeId === sizeId));
         setCart(newCart);
         sessionStorage.setItem('cart', JSON.stringify(newCart));
         window.dispatchEvent(new Event('cartChanged'));
@@ -81,6 +101,7 @@ const Cartpage = () => {
     const result = await updateProductQuantityCart({
       userId: user.userId,
       productId: id,
+      sizeId, // truyền thêm sizeId
       quantity: newQuantity,
       token
     });
@@ -88,7 +109,7 @@ const Cartpage = () => {
 
     if (result.ok) {
       const newCart = cart.map(i =>
-        i.id === id ? { ...i, quantity: newQuantity } : i
+        i.id === id && i.sizeId === sizeId ? { ...i, quantity: newQuantity } : i
       );
       setCart(newCart);
       sessionStorage.setItem('cart', JSON.stringify(newCart));
@@ -100,21 +121,22 @@ const Cartpage = () => {
   };
 
   // Xoá 1 sản phẩm (DELETE)
-  const handleDeleteItem = async (id) => {
+  const handleDeleteItem = async (id, sizeId) => {
     if (!user?.userId || !token) {
       message.error("Bạn cần đăng nhập!");
       return;
     }
-    setLoadingId(id);
+    setLoadingId(id + '-' + sizeId);
     const result = await deleteProductFromCart({
       userId: user.userId,
       productId: id,
+      sizeId, // truyền thêm sizeId
       token
     });
     setLoadingId(null);
 
     if (result.ok) {
-      const newCart = cart.filter(i => i.id !== id);
+      const newCart = cart.filter(i => !(i.id === id && i.sizeId === sizeId));
       setCart(newCart);
       sessionStorage.setItem('cart', JSON.stringify(newCart));
       window.dispatchEvent(new Event('cartChanged'));
@@ -189,80 +211,88 @@ const Cartpage = () => {
               borderRadius: 10,
               padding: 0,
             }}>
-              {cartItems.map(item => (
-                <div key={item.productId} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '18px 24px',
-                  borderRadius: 10,
-                  background: '#fafafa',
-                  marginBottom: 0
-                }}>
-                  <Button
-                    type="text"
-                    icon={loadingId === item.productId ? <Spin size="small" /> : <CloseOutlined />}
-                    style={{ marginRight: 16, color: '#888' }}
-                    onClick={() => handleDeleteItem(item.productId)}
-                    disabled={loadingId === item.productId || loadingAll}
-                  />
-                  <Image
-                    src={item.productImage}
-                    alt={item.productName}
-                    width={60}
-                    height={60}
-                    style={{
-                      objectFit: 'contain',
-                      borderRadius: 8,
-                      background: '#fff',
-                    }}
-                    preview={false}
-                  />
-                  <div style={{ flex: 1, marginLeft: 16 }}>
-                    <div style={{ fontWeight: 600, fontSize: 16 }}>{item.productName}</div>
-                    <div style={{ color: '#888', fontSize: 13, marginTop: 2 }}>
-                      {Number(item.price).toLocaleString('vi-VN')} ₫
-                    </div>
-                  </div>
-                  <div style={{
+              {cartItems.map(item => {
+
+                return (
+                  <div key={item.productId + '-' + item.sizeId} style={{
                     display: 'flex',
                     alignItems: 'center',
-                    background: '#fff',
-                    borderRadius: 8,
-                    border: '1px solid #eee',
-                    padding: '2px 10px',
-                    minWidth: 90,
-                    justifyContent: 'center'
+                    padding: '18px 24px',
+                    borderRadius: 10,
+                    background: '#fafafa',
+                    marginBottom: 0
                   }}>
                     <Button
                       type="text"
-                      style={{ fontSize: 18, minWidth: 28, height: 28, color: '#222' }}
-                      onClick={() => handleQuantityChange(item.productId, -1)}
-                      disabled={loadingId === item.productId || loadingAll}
-                    >-</Button>
-                    <span style={{
-                      minWidth: 24,
-                      textAlign: 'center',
-                      fontWeight: 500,
-                      fontSize: 16
-                    }}>{item.quantity}</span>
-                    <Button
-                      type="text"
-                      style={{ fontSize: 18, minWidth: 28, height: 28, color: '#222' }}
-                      onClick={() => handleQuantityChange(item.productId, 1)}
-                      disabled={loadingId === item.productId || loadingAll}
-                    >+</Button>
+                      icon={loadingId === (item.productId + '-' + item.sizeId) ? <Spin size="small" /> : <CloseOutlined />}
+                      style={{ marginRight: 16, color: '#888' }}
+                      onClick={() => handleDeleteItem(item.productId, item.sizeId)}
+                      disabled={loadingId === (item.productId + '-' + item.sizeId) || loadingAll}
+                    />
+                    <Image
+                      src={item.productImage}
+                      alt={item.productName}
+                      width={60}
+                      height={60}
+                      style={{
+                        objectFit: 'contain',
+                        borderRadius: 8,
+                        background: '#fff',
+                      }}
+                      preview={false}
+                    />
+                    <div style={{ flex: 1, marginLeft: 16 }}>
+                      <div style={{ fontWeight: 600, fontSize: 16 }}>{item.productName}</div>
+                      <div style={{ color: '#888', fontSize: 13, marginTop: 2 }}>
+                        {Number(item.price).toLocaleString('vi-VN')} ₫
+                        {item.sizeId && (
+                          <span style={{ marginLeft: 12, color: '#222', fontWeight: 500 }}>
+                            Size: {getSizeName(item.sizeId)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      background: '#fff',
+                      borderRadius: 8,
+                      border: '1px solid #eee',
+                      padding: '2px 10px',
+                      minWidth: 90,
+                      justifyContent: 'center'
+                    }}>
+                      <Button
+                        type="text"
+                        style={{ fontSize: 18, minWidth: 28, height: 28, color: '#222' }}
+                        onClick={() => handleQuantityChange(item.productId, item.sizeId, -1)}
+                        disabled={loadingId === (item.productId + '-' + item.sizeId) || loadingAll}
+                      >-</Button>
+                      <span style={{
+                        minWidth: 24,
+                        textAlign: 'center',
+                        fontWeight: 500,
+                        fontSize: 16
+                      }}>{item.quantity}</span>
+                      <Button
+                        type="text"
+                        style={{ fontSize: 18, minWidth: 28, height: 28, color: '#222' }}
+                        onClick={() => handleQuantityChange(item.productId, item.sizeId, 1)}
+                        disabled={loadingId === (item.productId + '-' + item.sizeId) || loadingAll}
+                      >+</Button>
+                    </div>
+                    <div style={{
+                      fontWeight: 700,
+                      fontSize: 18,
+                      marginLeft: 32,
+                      minWidth: 120,
+                      textAlign: 'right'
+                    }}>
+                      {(Number(item.price) * item.quantity).toLocaleString('vi-VN')} ₫
+                    </div>
                   </div>
-                  <div style={{
-                    fontWeight: 700,
-                    fontSize: 18,
-                    marginLeft: 32,
-                    minWidth: 120,
-                    textAlign: 'right'
-                  }}>
-                    {(Number(item.price) * item.quantity).toLocaleString('vi-VN')} ₫
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

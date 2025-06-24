@@ -1,8 +1,9 @@
 import axios from "axios";
+import { BASE_URL } from "./url"; // Thêm dòng này
 
 export const getAllRoles = async (token) => {
   try {
-    const response = await axios.get("https://api-for-be.onrender.com/api/get-all-roles", {
+    const response = await axios.get(`${BASE_URL}/api/get-all-roles`, {
       headers: {
         "Content-Type": "application/json",
         ...(token && { Authorization: `Bearer ${token}` }),
