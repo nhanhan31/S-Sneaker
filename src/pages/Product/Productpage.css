@@ -1,0 +1,7 @@
+.custom-card:hover {
+  box-shadow: 0 8px 32px #e0e0e0 !important;
+  transform: translateY(-6px) scale(1.03);
+}
+.custom-card:hover .custom-card-img {
+  transform: scale(1.07);
+}

@@ -1,0 +1,106 @@
+/* Hero section */
+.hero-info h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 0;
+  line-height: 1.1;
+}
+
+.hero-info p {
+  color: #888;
+  margin: 16px 0 0 0;
+  font-size: 16px;
+}
+
+.hero-info .ant-btn {
+  margin-top: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  height: 44px;
+  padding: 0 32px;
+}
+
+/* Filter & Color Options */
+.color-filter .ant-avatar {
+  border: 2px solid #eee;
+  box-shadow: 0 2px 8px #f0f0f0;
+  transition: border 0.2s;
+  cursor: pointer;
+}
+
+.color-filter .ant-avatar:hover {
+  border: 2px solid #1677ff;
+}
+
+.color-filter .ant-input-affix-wrapper {
+  border-radius: 8px;
+  background: #f5f5f5;
+  border: none;
+  box-shadow: none;
+}
+
+/* New Arrivals */
+.new-arrivals h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.product-list .ant-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #f3f3f3;
+  transition: box-shadow 0.2s;
+}
+
+.product-list .ant-card:hover {
+  box-shadow: 0 4px 24px #e0e0e0;
+}
+
+.product-list .ant-card-cover img {
+  border-radius: 12px 12px 0 0;
+  background: #f7f7f7;
+  padding: 12px;
+}
+
+/* Benefits */
+.benefits h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.benefits .ant-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+.benefits img {
+  width: 64px;
+  margin-bottom: 12px;
+}
+
+.benefits p {
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+/* Homepage.css */
+.custom-card:hover .custom-card-img {
+  transform: scale(1.05);
+}
+.custom-card {
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-info h1 {
+    font-size: 28px;
+  }
+  .new-arrivals h2 {
+    font-size: 20px;
+  }
+  .benefits h3 {
+    font-size: 20px;
+  }
+}

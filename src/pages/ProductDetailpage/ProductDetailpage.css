@@ -1,0 +1,21 @@
+.ant-btn, .custom-btn {
+  transition: background 0.5s, color 0.5s, border 0.5s, box-shadow 0.5s;
+}
+
+.ant-btn:not(:disabled):hover, .custom-btn:not(:disabled):hover {
+  background: #222 !important;
+  color: #fff !important;
+  border-color: #222 !important;
+  box-shadow: 0 2px 8px #e0e0e0;
+}
+
+.ant-btn[type="primary"]:not(:disabled):hover {
+  background: #333 !important;
+  border-color: #333 !important;
+  color: #fff !important;
+}
+
+.ant-btn[disabled], .custom-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
