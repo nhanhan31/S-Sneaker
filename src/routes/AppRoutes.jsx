@@ -10,6 +10,9 @@ import Favoritepage from '../pages/Favoritepage/Favoritepage';
 import Loginpage from '../pages/Loginpage/Loginpage';
 import PrivateRoute from './PrivateRoute';
 import Userpage from '../pages/Userpage/Userpage';
+import AdminLayout from '../components/AdminLayout';
+import Dashboard from '../pages/AdminPage/AdminDashboard';
+import AdminOrder from '../pages/AdminPage/AdminOrder';
 
 const AppRoutes = () => (
   <Routes>
@@ -67,6 +70,17 @@ const AppRoutes = () => (
         }
       />
       <Route path="*" element={<div>404 Not Found</div>} />
+    </Route>
+    <Route
+      path="/admin"
+      element={
+        <PrivateRoute allowedRoles={[3]}>
+          <AdminLayout />
+        </PrivateRoute>
+      }
+    >
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="order" element={<AdminOrder />} />
     </Route>
   </Routes>
 );
