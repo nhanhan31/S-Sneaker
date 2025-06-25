@@ -247,7 +247,7 @@ const ProductDetailpage = () => {
             alt={product.productName}
             style={{
               width: '100%',
-              maxWidth: 800,
+              maxWidth: 700,
               objectFit: 'contain',
               display: 'block',
               margin: '0 auto',
