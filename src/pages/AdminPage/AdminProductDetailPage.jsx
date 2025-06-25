@@ -37,13 +37,15 @@ const AdminProductDetailPage = () => {
   }
 
   return (
-    <div style={{ padding: 32, maxWidth: 900, margin: "0 auto" }}>
+    <div style={{ padding: "0 32px 0 32px", maxWidth: 1200, margin: "0 auto" }}>
       <div style={{ display: 'flex', gap: '12px', marginBottom: 24 }}>
         <Button onClick={() => navigate(-1)}>Quay lại</Button>
-        <Button 
-          type="primary" 
+        <Button
+          type="default"
           icon={<EditOutlined />}
           onClick={() => setShowEditModal(true)}
+          style={{ background: "#111", borderColor: "#111" }}
+          ghost
         >
           Chỉnh sửa
         </Button>
@@ -90,12 +92,12 @@ const AdminProductDetailPage = () => {
                   {(() => {
                     try {
                       // Parse JSON string to array
-                      const detailImages = product.productDetailImg 
-                        ? (typeof product.productDetailImg === 'string' 
-                            ? JSON.parse(product.productDetailImg) 
-                            : product.productDetailImg)
+                      const detailImages = product.productDetailImg
+                        ? (typeof product.productDetailImg === 'string'
+                          ? JSON.parse(product.productDetailImg)
+                          : product.productDetailImg)
                         : [];
-                      
+
                       if (Array.isArray(detailImages) && detailImages.length > 0) {
                         return detailImages.map((img, idx) => (
                           <Image
