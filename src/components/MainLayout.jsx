@@ -106,8 +106,8 @@ const MainLayout = () => {
     }
     if (key === "logout") {
       const rememberEmail = localStorage.getItem("rememberEmail");
-      sessionStorage.setItem('cart', JSON.stringify([]));
-      sessionStorage.setItem('favorites', JSON.stringify([]));
+      sessionStorage.removeItem('cart');
+      sessionStorage.removeItem('favorites');
       localStorage.clear();
       if (rememberEmail) {
         localStorage.setItem("rememberEmail", rememberEmail);
@@ -433,9 +433,9 @@ const MainLayout = () => {
 
       <Content style={{ background: '#fff' }}>
         <Outlet />
-        <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
+        <FacebookMessengerChat />
       </Content>
-
+      <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
       <Footer
         className="footer"
         style={{
@@ -548,7 +548,7 @@ const MainLayout = () => {
               </span>
             </div>
 
-            
+
             <div style={{
               color: '#222',
               fontSize: isMobile ? 13 : 14,
