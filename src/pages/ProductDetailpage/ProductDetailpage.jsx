@@ -37,7 +37,7 @@ const ProductDetailpage = () => {
 
   const [mainImg, setMainImg] = useState(product?.productImage);
   const [imgIdx, setImgIdx] = useState(0);
-  const [descOpen, setDescOpen] = useState(false);
+  const [descOpen, setDescOpen] = useState(true);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -376,7 +376,6 @@ const ProductDetailpage = () => {
           >
             Mô tả sản phẩm
             <DownOutlined 
-            open={descOpen}
             style={{
               marginLeft: 4,
               transition: '0.2s',
