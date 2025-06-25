@@ -9,11 +9,29 @@
 </head>
 
 <body>
-  <!-- <script src="https://app.tudongchat.com/js/chatbox.js"></script>
   <script>
-    const tudong_chatbox = new TuDongChat('te1zwR9wIg_94QAIqIKPn')
-    tudong_chatbox.initial()
-  </script> -->
+  window.fbAsyncInit = function () {
+    FB.init({
+      xfbml: true,
+      version: 'v19.0' // cập nhật version mới nhất
+    });
+  };
+
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+<div class="fb-customerchat"
+     attribution="setup_tool"
+     page_id="686096481255419"
+     theme_color="#0084FF"
+     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
+     logged_out_greeting="Xin chào! Hãy để lại tin nhắn nhé.">
+</div>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
