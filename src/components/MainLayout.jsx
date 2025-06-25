@@ -8,7 +8,6 @@ import { getFavoriteByUserId } from '../utils/favoriteApi';
 import { Dropdown } from 'antd';
 import { getUserDetail } from '../utils/userApi';
 import { fetchAllProducts } from '../utils/productApi';
-import FacebookMessengerChat from './FacebookMessengerChat';
 
 const { Header, Footer, Content } = Layout;
 
@@ -434,7 +433,7 @@ const MainLayout = () => {
 
       <Content style={{ background: '#fff' }}>
         <Outlet />
-        <FacebookMessengerChat />
+        
       </Content>
       <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
       <Footer
