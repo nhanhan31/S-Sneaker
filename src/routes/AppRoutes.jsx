@@ -76,9 +76,9 @@ const AppRoutes = () => (
         }
       >
         <Route index element={<UserContent />} />
-        <Route path="edit-info" element={<EditInfo />} />
-        <Route path="order" element={<OrderPage />} />
-        <Route path="shipping-status/:orderId" element={<ShippingStatus />} />
+        <Route path="/edit-info" element={<EditInfo />} />
+        <Route path="/order" element={<OrderPage />} />
+        <Route path="/shipping-status/:orderId" element={<ShippingStatus />} />
       </Route>   
     </Route>
     <Route
