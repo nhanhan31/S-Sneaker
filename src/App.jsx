@@ -8,7 +8,7 @@ function App() {
   return (
     <AntdApp>
       <BrowserRouter>
-        <AppRoutes />
+        <AppRoutes />   
       </BrowserRouter>
     </AntdApp>
   );

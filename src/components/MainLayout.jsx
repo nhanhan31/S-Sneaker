@@ -9,6 +9,7 @@ import { Dropdown } from 'antd';
 import { getUserDetail } from '../utils/userApi';
 import { fetchAllProducts } from '../utils/productApi';
 import BotpressChat from './BotpressChat';
+import FacebookMessengerChat from './FacebookMessengerChat';
 
 const { Header, Footer, Content } = Layout;
 
@@ -107,8 +108,8 @@ const MainLayout = () => {
     }
     if (key === "logout") {
       const rememberEmail = localStorage.getItem("rememberEmail");
-      sessionStorage.setItem('cart', JSON.stringify([]));
-      sessionStorage.setItem('favorites', JSON.stringify([]));
+      sessionStorage.removeItem('cart');
+      sessionStorage.removeItem('favorites');
       localStorage.clear();
       if (rememberEmail) {
         localStorage.setItem("rememberEmail", rememberEmail);
@@ -434,10 +435,11 @@ const MainLayout = () => {
 
       <Content style={{ background: '#fff' }}>
         <Outlet />
+        <FacebookMessengerChat />
         <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
         <BotpressChat />
       </Content>
-
+      
       <Footer
         className="footer"
         style={{
