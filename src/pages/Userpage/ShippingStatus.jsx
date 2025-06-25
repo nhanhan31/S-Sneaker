@@ -92,7 +92,7 @@ const ShippingStatus = () => {
                 ),
               },
               {
-                title: "Đã vận chuyển",
+                title: "Đã lấy hàng",
                 description: shipping?.pickup_time && (
                   <span>{new Date(shipping.pickup_time).toLocaleDateString()}</span>
                 ),

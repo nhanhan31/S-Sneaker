@@ -375,7 +375,9 @@ const ProductDetailpage = () => {
             onClick={() => setDescOpen(open => !open)}
           >
             Mô tả sản phẩm
-            <DownOutlined style={{
+            <DownOutlined 
+            open={descOpen}
+            style={{
               marginLeft: 4,
               transition: '0.2s',
               transform: descOpen ? 'rotate(180deg)' : 'rotate(0deg)'
@@ -390,7 +392,7 @@ const ProductDetailpage = () => {
         <div>
           <div style={{ fontWeight: 600, marginBottom: 8 }}>Chọn kích cỡ</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {Array.from({ length: 46 - 32 + 1 }, (_, i) => i + 32).map(size => {
+            {Array.from({ length: 46 - 35 + 1 }, (_, i) => i + 35).map(size => {
               const found = sizeOptions.find(opt => opt.sizeNumber === size);
               return (
                 <Button
