@@ -8,6 +8,7 @@ import { getFavoriteByUserId } from '../utils/favoriteApi';
 import { Dropdown } from 'antd';
 import { getUserDetail } from '../utils/userApi';
 import { fetchAllProducts } from '../utils/productApi';
+import FacebookMessengerChat from './FacebookMessengerChat';
 
 const { Header, Footer, Content } = Layout;
 
