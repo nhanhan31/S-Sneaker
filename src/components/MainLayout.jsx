@@ -433,9 +433,9 @@ const MainLayout = () => {
 
       <Content style={{ background: '#fff' }}>
         <Outlet />
-        
+        <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
       </Content>
-      <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
+      
       <Footer
         className="footer"
         style={{
