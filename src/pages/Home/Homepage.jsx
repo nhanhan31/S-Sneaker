@@ -33,6 +33,7 @@ const Homepage = () => {
         gutter={32}
         align="middle"
         className="hero-section"
+        style={{margin: 0}}
       >
         
         <Col xs={24} md={12} className="hero-text-col">
@@ -175,7 +176,7 @@ const Homepage = () => {
         <div className="slogan-subtitle">
           đừng tìm đâu xa nữa; đây chính là nơi bạn tìm thấy đôi giày hoàn hảo!
         </div>
-        <Row gutter={[48, 24]} justify="space-between" className="features-row">
+        <Row gutter={[48, 24]} justify="space-between" className="features-row" style={{ margin: 0 }}>
           <Col xs={24} sm={12} md={8} className="feature-col">
             <img
               src="/assets/Group.png"
