@@ -1,23 +1,181 @@
+/* Homepage Wrapper */
+.homepage-wrapper {
+  background: linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%);
+  padding: 0 0 60px 0;
+  min-height: 100vh;
+}
+
+/* Top Banner */
+.top-banner {
+  width: 100%;
+  background: rgb(0, 0, 0);
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Hero Section */
+.hero-section {
+  margin: 0;
+  padding: 48px 16px 24px 16px;
+  background: linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%);
+}
+
 /* Hero section */
-.hero-info h1 {
-  font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 0;
+.hero-info {
+  padding-left: 60px;
+  padding-right: 20px;
+}
+
+.hero-title {
+  font-size: 44px !important;
+  font-weight: 800 !important;
+  margin-bottom: 0 !important;
+  color: #111 !important;
   line-height: 1.1;
 }
 
-.hero-info p {
-  color: #888;
-  margin: 16px 0 0 0;
-  font-size: 16px;
+.hero-description {
+  color: #888 !important;
+  margin: 24px 0 0 0 !important;
+  font-size: 18px !important;
 }
 
-.hero-info .ant-btn {
+.hero-features {
+  color: #444;
+  font-size: 16px;
+  margin: 24px 0 0 0;
+  padding-left: 20px;
+}
+
+.hero-cta-button {
+  margin-top: 32px !important;
+  background: #111 !important;
+  border-color: #111 !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  border-radius: 8px !important;
+}
+
+.hero-carousel-col {
+  text-align: center;
+}
+
+.hero-carousel {
+  width: 100%;
+  margin: 0;
+}
+
+.carousel-slide {
+  padding: 12px;
+}
+
+.carousel-image {
+  width: 100%;
+  max-width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px #eee;
+  margin: 0 auto;
+}
+
+.carousel-title {
   margin-top: 16px;
-  border-radius: 8px;
+  color: #888;
+  font-size: 15px;
+}
+
+/* Brand Intro */
+.brand-intro {
+  padding: 48px 16px 24px 16px;
+  text-align: center;
+}
+
+.brand-title {
+  font-weight: 700 !important;
+  margin-bottom: 12px !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+.brand-description {
+  font-size: 18px !important;
+  color: #444 !important;
+  max-width: 600px;
+  margin: 0 auto !important;
+}
+
+.brand-subdescription {
+  font-size: 16px !important;
+  color: #888 !important;
+  max-width: 600px;
+  margin: 12px auto 0 auto !important;
+}
+
+/* Featured Collection */
+.featured-collection {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 16px;
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.collection-title {
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.view-all-button {
+  font-weight: 500 !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Slogan and Features */
+.slogan-features {
+  margin: 64px auto 0 auto;
+  max-width: 1000px;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.slogan-title {
+  font-weight: 800 !important;
+  margin-bottom: 0 !important;
+  color: #111 !important;
+}
+
+.slogan-subtitle {
+  color: #888;
+  font-size: 18px;
+  margin: 16px 0 40px 0;
+}
+
+.features-row {
+  justify-content: space-between;
+}
+
+.feature-col {
+  margin-bottom: 24px;
+}
+
+.feature-icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px;
+}
+
+.feature-title {
   font-weight: 600;
-  height: 44px;
-  padding: 0 32px;
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
 /* Filter & Color Options */
@@ -93,14 +251,160 @@
 }
 
 /* Responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet styles */
+  .hero-info {
+    padding-left: 40px;
+    padding-right: 20px;
+  }
+  
+  .hero-title {
+    font-size: 36px !important;
+  }
+  
+  .hero-description {
+    font-size: 17px !important;
+  }
+  
+  .carousel-image {
+    max-width: 300px;
+    height: 300px;
+  }
+  
+  .feature-icon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
 @media (max-width: 768px) {
-  .hero-info h1 {
-    font-size: 28px;
+  /* Hero Section Mobile */
+  .hero-text-col {
+    order: 2;
   }
-  .new-arrivals h2 {
-    font-size: 20px;
+  
+  .hero-carousel-col {
+    order: 1;
+    margin-bottom: 32px;
   }
-  .benefits h3 {
-    font-size: 20px;
+  
+  .hero-info {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 28px !important;
+  }
+  
+  .hero-description {
+    font-size: 16px !important;
+  }
+  
+  .hero-features {
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .hero-cta-button {
+    width: 100% !important;
+    font-size: 16px !important;
+    height: 48px !important;
+  }
+  
+  /* Carousel Mobile */
+  .carousel-image {
+    max-width: 280px;
+    height: 280px;
+  }
+  
+  /* Collection Header Mobile */
+  .collection-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .view-all-button {
+    align-self: stretch;
+    text-align: center;
+  }
+  
+  /* Brand Intro Mobile */
+  .brand-description {
+    font-size: 16px !important;
+  }
+  
+  .brand-subdescription {
+    font-size: 14px !important;
+  }
+  
+  /* Slogan Features Mobile */
+  .slogan-title {
+    font-size: 24px !important;
+  }
+  
+  .slogan-subtitle {
+    font-size: 16px;
+  }
+  
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .feature-title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Extra small screens */
+  .hero-title {
+    font-size: 24px !important;
+  }
+  
+  .hero-description {
+    font-size: 14px !important;
+  }
+  
+  .carousel-image {
+    max-width: 250px;
+    height: 250px;
+  }
+  
+  .brand-intro {
+    padding: 32px 16px 16px 16px;
+  }
+  
+  .slogan-features {
+    margin: 32px auto 0 auto;
+  }
+  
+  .slogan-title {
+    font-size: 20px !important;
+  }
+  
+  .slogan-subtitle {
+    font-size: 14px;
+  }
+  
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .feature-title {
+    font-size: 14px;
+  }
+  
+  .top-banner {
+    font-size: 14px;
+    padding: 6px 0;
+  }
+  
+  .hero-section {
+    padding: 32px 16px 16px 16px;
   }
 }

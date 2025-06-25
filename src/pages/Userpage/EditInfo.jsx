@@ -111,7 +111,7 @@ const EditInfo = () => {
   return (
     <div style={{ maxWidth: 600, margin: "0 20px", background: "#fff", padding: 32, borderRadius: 8,  display: "flex", justifyContent: "flex-start" }}>
       <div style={{ width: "100%" }}>
-        <Title level={3} style={{ marginBottom: 24 }}>Edit Information</Title>
+        <Title level={3} style={{ marginBottom: 24 }}>Chỉnh sửa thông tin</Title>
         <Spin spinning={formLoading}>
           <Form
             form={form}
@@ -129,17 +129,17 @@ const EditInfo = () => {
             }}
             onFinish={onFinish}
           >
-            <Form.Item label="First Name" name="firstName">
-              <Input placeholder="First Name" />
+            <Form.Item label="Họ" name="firstName">
+              <Input placeholder="Nhập họ" />
             </Form.Item>
-            <Form.Item label="Last Name" name="lastName">
-              <Input placeholder="Last Name" />
+            <Form.Item label="Tên" name="lastName">
+              <Input placeholder="Nhập tên" />
             </Form.Item>
-            <Form.Item label="Phone Number" name="phoneNumber">
-              <Input placeholder="Phone Number" />
+            <Form.Item label="Số điện thoại" name="phoneNumber">
+              <Input placeholder="Nhập số điện thoại" />
             </Form.Item>
-            <Form.Item label="Address" name="address">
-              <Input placeholder="Address" />
+            <Form.Item label="Địa chỉ" name="address">
+              <Input placeholder="Nhập địa chỉ" />
             </Form.Item>
             <Form.Item label="Province" name="province" rules={[{ required: true, message: "Chọn tỉnh/thành phố" }]}>
               <Select
@@ -191,11 +191,11 @@ const EditInfo = () => {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item label="Bank Name" name="bankName">
-              <Input placeholder="Bank Name" />
+            <Form.Item label="Tên ngân hàng" name="bankName">
+              <Input placeholder="Nhập tên ngân hàng" />
             </Form.Item>
-            <Form.Item label="Bank Account Number" name="bankAccountNumber">
-              <Input placeholder="Bank Account Number" />
+            <Form.Item label="Số tài khoản ngân hàng" name="bankAccountNumber">
+              <Input placeholder="Nhập số tài khoản ngân hàng" />
             </Form.Item>
             <Form.Item>
               <Button
@@ -210,7 +210,7 @@ const EditInfo = () => {
                   height: 40,
                 }}
               >
-                Save
+                Lưu
               </Button>
             </Form.Item>
           </Form>

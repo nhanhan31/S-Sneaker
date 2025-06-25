@@ -1,40 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Image, message } from "antd";
+import { Button, Image, message, Spin } from "antd";
 import { HeartFilled, HeartOutlined, LeftOutlined, RightOutlined, DownOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { addProductToFavorite, deleteFavoriteByProductId } from "../../utils/favoriteApi";
 import { addProductToCart } from "../../utils/cartApi";
-import "./ProductDetailpage.css"; // Thêm dòng này để import CSS custom
+import { fetchProductById } from "../../utils/productApi"; // Thêm dòng này
+import "./ProductDetailpage.css";
 
 const ProductDetailpage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Lấy shoesData từ localStorage
-  const shoesData = React.useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem('shoesData') || '[]');
-    } catch {
-      return [];
-    }
-  }, []);
-
-  // SỬA: tìm theo productId từ shoesData lấy từ localStorage
-  const product = shoesData.find(item => item.productId === Number(id)) || {};
-
-  // SỬA: lấy mảng ảnh từ productDetailImg và thêm productImage vào đầu mảng (nếu có)
-  const images = product.productImage
-    ? [product.productImage, ...(product.productDetailImg || [])]
-    : product.productDetailImg || [];
-
-  const [mainImg, setMainImg] = useState(product.productImage);
-  const [imgIdx, setImgIdx] = useState(0);
-  const [descOpen, setDescOpen] = useState(false);
-  // SỬA: Lưu selectedSize là object { sizeNumber, sizeId }
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const autoSlideRef = useRef();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Lấy user, token, favorites từ local/session
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -43,18 +21,38 @@ const ProductDetailpage = () => {
     JSON.parse(sessionStorage.getItem("favorites") || "[]")
   );
 
-  // SỬA: cập nhật lại mainImg, isFavorite khi đổi sản phẩm
+  // Lấy chi tiết sản phẩm từ API
   useEffect(() => {
-    setMainImg(product.productImage);
+    setLoading(true);
+    fetchProductById(id).then((data) => {
+      setProduct(data);
+      setLoading(false);
+    });
+  }, [id]);
+
+  // SỬA: lấy mảng ảnh từ productDetailImg và thêm productImage vào đầu mảng (nếu có)
+  const images = product?.productImage
+    ? [product.productImage, ...(product.productDetailImg || [])]
+    : product?.productDetailImg || [];
+
+  const [mainImg, setMainImg] = useState(product?.productImage);
+  const [imgIdx, setImgIdx] = useState(0);
+  const [descOpen, setDescOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const autoSlideRef = useRef();
+
+  // Cập nhật lại mainImg, isFavorite khi đổi sản phẩm
+  useEffect(() => {
+    setMainImg(product?.productImage);
     setImgIdx(0);
-    setIsFavorite(favorites.includes(product.productId));
-  }, [product?.productId]);
+    setIsFavorite(product && favorites.includes(product.productId));
+  }, [product?.productId, favorites]);
 
   // Tự động chuyển ảnh mỗi 3 giây nếu có nhiều hơn 1 ảnh
   useEffect(() => {
-    // Xoá interval cũ nếu có
     if (autoSlideRef.current) clearInterval(autoSlideRef.current);
-
     if (images.length > 1) {
       autoSlideRef.current = setInterval(() => {
         setImgIdx(prevIdx => {
@@ -64,8 +62,6 @@ const ProductDetailpage = () => {
         });
       }, 3000);
     }
-
-    // Cleanup khi unmount hoặc đổi images
     return () => {
       if (autoSlideRef.current) clearInterval(autoSlideRef.current);
     };
@@ -145,14 +141,16 @@ const ProductDetailpage = () => {
   };
 
   // Lấy danh sách size từ batchDetails
-  const sizeOptions = product.batchDetails
+  const sizeOptions = Array.isArray(product?.batchDetails)
     ? product.batchDetails.map(b => ({
         sizeNumber: Number(b.sizes.sizeNumber),
         sizeId: b.sizeId
       }))
     : [];
 
-  const sizes = product.batchDetails ? product.batchDetails.map(b => Number(b.sizes.sizeNumber)) : [];
+  const sizes = Array.isArray(product?.batchDetails)
+    ? product.batchDetails.map(b => Number(b.sizes.sizeNumber))
+    : [];
 
   const handlePrev = () => {
     if (!images.length) return;
@@ -168,11 +166,19 @@ const ProductDetailpage = () => {
     setMainImg(images[newIdx]);
   };
 
+  if (loading || !product) {
+    return (
+      <div style={{ minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Spin size="large" tip="Đang tải sản phẩm..." />
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
         display: 'flex',
-        background: '#fff',
+        background: 'linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%)',
         padding: '30px',
         fontFamily: 'Inter, Arial, sans-serif'
       }}
@@ -241,7 +247,7 @@ const ProductDetailpage = () => {
             alt={product.productName}
             style={{
               width: '100%',
-              
+              maxWidth: 800,
               objectFit: 'contain',
               display: 'block',
               margin: '0 auto',
@@ -328,7 +334,7 @@ const ProductDetailpage = () => {
       {/* Thông tin sản phẩm */}
       <div style={{
         flex: 1,
-        background: '#fff',
+        background: 'linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%)',
         padding: '48px 40px 48px 32px',
         display: 'flex',
         flexDirection: 'column',
@@ -368,7 +374,7 @@ const ProductDetailpage = () => {
             }}
             onClick={() => setDescOpen(open => !open)}
           >
-            Description
+            Mô tả sản phẩm
             <DownOutlined style={{
               marginLeft: 4,
               transition: '0.2s',
@@ -382,7 +388,7 @@ const ProductDetailpage = () => {
           )}
         </div>
         <div>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Select size</div>
+          <div style={{ fontWeight: 600, marginBottom: 8 }}>Chọn kích cỡ</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {Array.from({ length: 46 - 32 + 1 }, (_, i) => i + 32).map(size => {
               const found = sizeOptions.find(opt => opt.sizeNumber === size);
@@ -435,7 +441,7 @@ const ProductDetailpage = () => {
             }}
             onClick={() => handleAddToCart(product.productId, quantity)}
           >
-            Add to cart
+            Thêm vào giỏ
           </Button>
           <Button
             style={{
@@ -455,7 +461,7 @@ const ProductDetailpage = () => {
               }
             }}
           >
-            View Cart
+            Xem giỏ hàng
           </Button>
         </div>
       </div>

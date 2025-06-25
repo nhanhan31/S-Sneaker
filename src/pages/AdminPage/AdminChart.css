@@ -1,0 +1,253 @@
+/* AdminChart Responsive Styles */
+
+/* Chart container base styles */
+.chart-container {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.chart-container:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart title */
+.chart-title {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* Chart wrapper for ResponsiveContainer */
+.chart-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+/* Grid layouts */
+.charts-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+/* Extra small devices (< 480px) */
+@media (max-width: 480px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+  }
+  
+  .chart-title {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .chart-wrapper {
+    height: 10rem;
+  }
+  
+  /* Recharts specific adjustments for XS */
+  .recharts-cartesian-axis-tick-value {
+    font-size: 0.625rem !important;
+  }
+  
+  .recharts-tooltip-wrapper {
+    font-size: 0.75rem;
+  }
+}
+
+/* Small devices (480px - 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .chart-container {
+    padding: 1.25rem;
+  }
+  
+  .chart-title {
+    font-size: 1rem;
+  }
+  
+  .chart-wrapper {
+    height: 12rem;
+  }
+}
+
+/* Medium devices - Tablets (641px - 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .chart-container {
+    padding: 1.5rem;
+  }
+  
+  .chart-title {
+    font-size: 1.125rem;
+  }
+  
+  .chart-wrapper {
+    height: 14rem;
+  }
+}
+
+/* Large devices - Desktop (769px+) */
+@media (min-width: 769px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .chart-container {
+    padding: 1.5rem;
+  }
+  
+  .chart-title {
+    font-size: 1.125rem;
+  }
+  
+  .chart-wrapper {
+    height: 16rem;
+  }
+  
+  /* Full width chart on desktop */
+  .chart-container.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .chart-container.full-width .chart-wrapper {
+    height: 20rem;
+  }
+}
+
+/* Loading state for charts */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  color: #6b7280;
+}
+
+.chart-loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.75rem;
+}
+
+/* Custom tooltip styles */
+.custom-chart-tooltip {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
+  max-width: 200px;
+}
+
+@media (max-width: 480px) {
+  .custom-chart-tooltip {
+    padding: 0.5rem;
+    max-width: 150px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Bar chart specific styles */
+.bar-chart .recharts-bar {
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.bar-chart .recharts-bar:hover {
+  opacity: 0.8;
+}
+
+/* Axis improvements */
+.recharts-cartesian-axis-tick {
+  font-family: inherit;
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 0.75rem;
+  fill: #6b7280;
+}
+
+/* Grid lines */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #f3f4f6;
+  stroke-dasharray: 3 3;
+}
+
+/* Responsive text scaling */
+@media (max-width: 640px) {
+  .recharts-cartesian-axis-tick-value {
+    font-size: 0.625rem;
+  }
+}
+
+/* Animation improvements */
+@media (prefers-reduced-motion: reduce) {
+  .chart-container,
+  .chart-loading-spinner,
+  .bar-chart .recharts-bar {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .chart-container {
+    border: 2px solid #000;
+  }
+  
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: #000;
+    stroke-width: 1px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+    page-break-inside: avoid;
+  }
+  
+  .chart-container {
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .chart-loading {
+    display: none;
+  }
+}
+
+/* Spin animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Input, Checkbox, Select, Button, Divider, Form, message, Spin, Modal, ConfigProvider } from "antd";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 // XÓA DÒNG NÀY: import shoesData from "../../components/shoesData";
 import { createNewOrder } from "../../utils/orderApi";
 import { getUserDetail, updateUser } from "../../utils/userApi";
 import { getProvinces, getDistricts, getWards } from "../../utils/ghnApi";
+import { payosReturn } from "../../utils/payosApi";
 import "./Checkoutpage.css";
 
 const { Option } = Select;
@@ -25,6 +28,7 @@ const Checkoutpage = () => {
 
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const token = localStorage.getItem("token");
+    const location = useLocation();
 
     // Lấy shoesData từ localStorage thay vì import file js
     const shoesData = React.useMemo(() => {
@@ -160,21 +164,42 @@ const Checkoutpage = () => {
     };
 
     const handleCheckout = async () => {
-        if (!user?.userId || !token) {
-            alert("Bạn cần đăng nhập!");
-            return;
-        }
-        setLoading(true);
-        const result = await createNewOrder({
-            userId: user.userId,
-            token,
-            promotionId: null
-        });
-        setLoading(false);
-        if (result.ok && result.data.paymentUrl) {
-            window.location.href = result.data.paymentUrl;
-        } else {
-            alert(result.data.errMessage || "Đặt hàng thất bại, vui lòng thử lại sau!");
+        try {
+            // Xác thực tất cả trường bắt buộc
+            const values = await form.validateFields([
+                "firstName",
+                "lastName",
+                "phoneNumber",
+                "address",
+                "province",
+                "district",
+                "wardCode"
+            ]);
+            // Kiểm tra số điện thoại Việt Nam (10 số, bắt đầu bằng 0)
+            const phoneRegex = /^(0[0-9]{9})$/;
+            if (!phoneRegex.test(values.phoneNumber)) {
+                message.error("Vui lòng nhập số điện thoại hợp lệ!");
+                return;
+            }
+            if (!user?.userId || !token) {
+                alert("Bạn cần đăng nhập!");
+                return;
+            }
+            setLoading(true);
+            const result = await createNewOrder({
+                userId: user.userId,
+                token,
+                promotionId: null
+            });
+            setLoading(false);
+            if (result.ok && result.data.paymentUrl) {
+                window.location.href = result.data.paymentUrl;
+            } else {
+                alert(result.data.errMessage || "Đặt hàng thất bại, vui lòng thử lại sau!");
+            }
+        } catch (err) {
+            // Nếu validateFields lỗi sẽ vào đây
+            message.error("Vui lòng điền đầy đủ và đúng thông tin giao hàng!");
         }
     };
 
@@ -183,8 +208,8 @@ const Checkoutpage = () => {
             Modal.confirm({
                 title: "Xác nhận lưu thông tin?",
                 content: "Bạn có chắc muốn lưu thông tin giao hàng này cho lần sau?",
-                okText: "Yes",
-                cancelText: "No",
+                okText: "Có",
+                cancelText: "Không",
                 onOk: async () => {
                     // Lấy đúng trường từ form
                     const userInfo = form.getFieldsValue([
@@ -259,6 +284,24 @@ const Checkoutpage = () => {
         return found ? found.WardName : wardCode;
     };
 
+    useEffect(() => {
+        if (location.pathname === "/payment-cancel") {
+            const params = new URLSearchParams(location.search);
+            const status = params.get("status");
+            const orderCode = params.get("orderCode");
+            if (status && orderCode) {
+                payosReturn({ status, orderCode, token })
+                    .then(res => {
+                        message.info("Đã huỷ thanh toán" );
+                    })
+                    .catch(() => {
+                        message.error("Không thể xử lý trạng thái thanh toán!");
+                    });
+                    sessionStorage.removeItem("cart"); 
+            }
+        }
+    }, [location]);
+
     return (
         <div style={{ display: "flex", gap: 32, padding: 32, background: "#fff", minHeight: "70vh" }}>
             {/* Left: Form */}
@@ -283,32 +326,32 @@ const Checkoutpage = () => {
                             setIsChanged(changed);
                         }}
                     >
-                        <h2 style={{ fontWeight: 700 }}>Contact</h2>
-                        <Form.Item name="contact" rules={[{ required: true, message: "Please enter your email or phone" }]}>
+                        <h2 style={{ fontWeight: 700 }}>Liên hệ</h2>
+                        <Form.Item name="contact" rules={[{ required: true, message: "Vui lòng nhập email hoặc số điện thoại" }]}>
                             <Input
-                                placeholder="email or mobile phone number"
+                                placeholder="Email hoặc số điện thoại"
                                 size="large"
                                 style={{ background: "#fff" }}
                                 disabled
                             />
                         </Form.Item>
 
-                        <h2 style={{ fontWeight: 700 }}>Delivery</h2>
+                        <h2 style={{ fontWeight: 700 }}>Giao hàng</h2>
                         <div style={{ display: "flex", gap: 8 }}>
                             <Form.Item name="firstName" style={{ flex: 1 }}>
-                                <Input placeholder="First name (optional)" size="large" style={{ background: "#fff" }} />
+                                <Input placeholder="Tên (không bắt buộc)" size="large" style={{ background: "#fff" }} />
                             </Form.Item>
                             <Form.Item name="lastName" style={{ flex: 1 }}>
-                                <Input placeholder="Last name" size="large" style={{ background: "#fff" }} />
+                                <Input placeholder="Họ" size="large" style={{ background: "#fff" }} />
                             </Form.Item>
                         </div>
                         <Form.Item name="phoneNumber">
-                            <Input placeholder="Phone" size="large" style={{ background: "#fff" }} />
+                            <Input placeholder="Số điện thoại" size="large" style={{ background: "#fff" }} />
                         </Form.Item>
                         <Form.Item name="address">
-                            <Input placeholder="Address" size="large" style={{ background: "#fff" }} />
+                            <Input placeholder="Địa chỉ" size="large" style={{ background: "#fff" }} />
                         </Form.Item>
-                        <Form.Item name="province" label="Province" rules={[{ required: true, message: "Chọn tỉnh/thành phố" }]}>
+                        <Form.Item name="province" label="Tỉnh/Thành phố" rules={[{ required: true, message: "Chọn tỉnh/thành phố" }]}>
                             <Select
                                 showSearch
                                 placeholder="Chọn tỉnh/thành phố"
@@ -324,7 +367,7 @@ const Checkoutpage = () => {
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Form.Item name="district" label="District" rules={[{ required: true, message: "Chọn quận/huyện" }]}>
+                        <Form.Item name="district" label="Quận/Huyện" rules={[{ required: true, message: "Chọn quận/huyện" }]}>
                             <Select
                                 showSearch
                                 placeholder="Chọn quận/huyện"
@@ -342,7 +385,7 @@ const Checkoutpage = () => {
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Form.Item name="wardCode" label="Ward" rules={[{ required: true, message: "Chọn phường/xã" }]}>
+                        <Form.Item name="wardCode" label="Phường/Xã" rules={[{ required: true, message: "Chọn phường/xã" }]}>
                             <Select
                                 showSearch
                                 placeholder="Chọn phường/xã"
@@ -377,7 +420,7 @@ const Checkoutpage = () => {
                                     onChange={e => handleSaveInfo(e.target.checked)}
                                     disabled={!isChanged}
                                 >
-                                    Save this information for next time
+                                    Lưu thông tin này cho lần sau
                                 </Checkbox>
                             </ConfigProvider>
 
@@ -436,17 +479,17 @@ const Checkoutpage = () => {
                 <div style={{ background: "#fff", borderRadius: 8, padding: 24, width: "60%", position: "relative", float: "right" }}>
                     <div style={{ marginBottom: 12 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, marginBottom: 10 }}>
-                            <span>Order summary</span>
+                            <span>Tạm tính</span>
                             <span style={{ fontWeight: 600 }}>
                                 {cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0).toLocaleString("vi-VN")} ₫
                             </span>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, marginBottom: 10 }}>
-                            <span>Delivery fee</span>
+                            <span>Phí vận chuyển</span>
                             <span style={{ fontWeight: 600 }}>0 ₫</span>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
-                            <span>Sub total</span>
+                            <span>Tổng phụ</span>
                             <span style={{ fontWeight: 600 }}>
                                 {cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0).toLocaleString("vi-VN")} ₫
                             </span>
@@ -469,7 +512,7 @@ const Checkoutpage = () => {
                         loading={loading}
                         onClick={handleCheckout}
                     >
-                        Buy it now
+                        Mua ngay
                     </Button>
                 </div>
             </div>

@@ -13,6 +13,12 @@ import Userpage from '../pages/Userpage/Userpage';
 import UserContent from '../pages/Userpage/UserContent';
 import EditInfo from '../pages/Userpage/EditInfo';
 import OrderPage from '../pages/Userpage/OrderPage';
+import AdminLayout from '../components/AdminLayout';
+import Dashboard from '../pages/AdminPage/AdminDashboard';
+import AdminOrder from '../pages/AdminPage/AdminOrder';
+import ShippingStatus from '../pages/Userpage/ShippingStatus';
+import AdminProductPage from '../pages/AdminPage/AdminProductPage';
+import AdminProductDetailPage from '../pages/AdminPage/AdminProductDetailPage';
 
 const AppRoutes = () => (
   <Routes>
@@ -49,7 +55,7 @@ const AppRoutes = () => (
         path="/payment-cancel"
         element={
           <PrivateRoute allowedRoles={[1, 4, 5]}>
-            <Checkoutpage />
+            <Productpage />
           </PrivateRoute>
         }
       />
@@ -72,9 +78,23 @@ const AppRoutes = () => (
         <Route index element={<UserContent />} />
         <Route path="edit-info" element={<EditInfo />} />
         <Route path="order" element={<OrderPage />} />
-      </Route>
-      <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="shipping-status/:orderId" element={<ShippingStatus />} />
+      </Route>   
     </Route>
+    <Route
+      path="/admin"
+      element={
+        <PrivateRoute allowedRoles={[2, 3]}>
+          <AdminLayout />
+        </PrivateRoute>
+      }
+    >
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="order" element={<AdminOrder />} />
+      <Route path="product" element={ <AdminProductPage/>} />
+      <Route path="product/:id" element={<AdminProductDetailPage/>} />
+    </Route>
+    <Route path="*" element={<div>404 Not Found</div>} />
   </Routes>
 );
 

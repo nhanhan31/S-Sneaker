@@ -1,0 +1,274 @@
+/* AdminDashboard Responsive Styles */
+
+/* Dashboard container */
+.admin-dashboard {
+  transition: padding 0.3s ease-in-out;
+}
+
+/* Stats cards responsive grid */
+.stats-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  .admin-dashboard {
+    padding: 0.5rem !important;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .stats-card {
+    padding: 1rem !important;
+  }
+  
+  .stats-card h3 {
+    font-size: 0.875rem !important;
+    line-height: 1.2;
+  }
+  
+  .stats-card p {
+    font-size: 0.75rem !important;
+  }
+  
+  .stats-icon {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  .stats-icon svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+}
+
+/* Small devices (landscape phones, 481px to 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .stats-card:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Medium devices (tablets, 641px to 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large devices (desktops, 769px and up) */
+@media (min-width: 769px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Chart section responsive */
+.charts-container {
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 480px) {
+  .charts-container {
+    margin-top: 1.5rem !important;
+  }
+  
+  .chart-card {
+    padding: 1rem !important;
+    margin-bottom: 1rem;
+  }
+  
+  .chart-title {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .chart-height-xs {
+    height: 10rem !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+  .chart-height-mobile {
+    height: 12rem !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .chart-height-tablet {
+    height: 14rem !important;
+  }
+}
+
+/* Loading states responsive */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  background-color: #f9fafb;
+}
+
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@media (max-width: 480px) {
+  .loading-container {
+    min-height: 40vh;
+  }
+  
+  .loading-spinner {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Header responsive */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .dashboard-header-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    margin-bottom: 1rem;
+  }
+  
+  .dashboard-header-actions {
+    justify-content: center;
+  }
+}
+
+/* Button responsive improvements */
+.export-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.export-button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+@media (max-width: 480px) {
+  .export-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .export-button svg {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .admin-dashboard,
+  .stats-grid,
+  .charts-container,
+  .export-button {
+    transition: none !important;
+  }
+  
+  .loading-spinner {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .stats-card {
+    border: 2px solid #000;
+  }
+  
+  .export-button {
+    border: 2px solid #000;
+  }
+}
+
+/* Focus improvements */
+.export-button:focus {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .export-button,
+  .dashboard-header-actions {
+    display: none !important;
+  }
+  
+  .admin-dashboard {
+    padding: 0 !important;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    page-break-inside: avoid;
+  }
+  
+  .chart-card {
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .export-button {
+    min-height: 44px; /* Ensure touch target is at least 44px */
+    min-width: 44px;
+  }
+  
+  .stats-card {
+    touch-action: pan-y; /* Allow vertical scrolling */
+  }
+}

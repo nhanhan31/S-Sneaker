@@ -129,7 +129,7 @@ const Favoritepage = () => {
 
     return (
         <div style={{ padding: 32, background: "#fff", minHeight: "100vh" }}>
-            <h2 style={{ fontWeight: 700, marginBottom: 32 }}>Your favorite</h2>
+            <h2 style={{ fontWeight: 700, marginBottom: 32 }}>Sản phẩm yêu thích</h2>
             {favoriteShoes.length > 0 && (
                 <div style={{ marginBottom: 10 }}>
                     <ConfigProvider
@@ -152,13 +152,13 @@ const Favoritepage = () => {
                                 }
                             }}
                         >
-                            Select all
+                            Chọn tất cả
                         </Checkbox>
                     </ConfigProvider>
                 </div>
             )}
             {favoriteShoes.length === 0 && (
-                <div style={{ color: "#888", textAlign: "center", padding: 40 }}>No favorite products.</div>
+                <div style={{ color: "#888", textAlign: "center", padding: 40 }}>Chưa có sản phẩm yêu thích nào.</div>
             )}
             <div style={{
                 background: '#fafafa',
@@ -248,7 +248,7 @@ const Favoritepage = () => {
                             size="large"
                             onClick={handleDelete}
                         >
-                            Delete
+                            Xóa
                         </Button>
                         <Button
                             type="primary"
@@ -262,7 +262,7 @@ const Favoritepage = () => {
                             size="large"
                             onClick={handleAddToCart}
                         >
-                            Add to cart
+                            Thêm vào giỏ
                         </Button>
                     </div>
                 )}

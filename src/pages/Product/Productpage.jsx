@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Checkbox, Slider, Pagination, Button, Input, ConfigProvider, message } from 'antd'; // Thêm Input
+import React, { useState, useEffect, useMemo } from 'react';
+import { Row, Col, Card, Checkbox, Slider, Pagination, Button, Input, ConfigProvider, message, Spin } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Productpage.css';
 import Search from 'antd/es/input/Search';
 import { IoOptionsOutline } from "react-icons/io5";
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { addProductToFavorite, deleteFavoriteByProductId } from "../../utils/favoriteApi";
+import { fetchAllProducts } from "../../utils/productApi"; // Sử dụng API
+import { payosReturn } from "../../utils/payosApi";
 
 const brands = ['Nike', 'Jordan', 'Adidas', 'Puma', 'Timberland'];
 const categories = ['Sneakers', 'Boots', 'Sandals', 'Loafers'];
@@ -14,7 +16,6 @@ const sizes = [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46];
 const PAGE_SIZE = 9;
 
 const Productpage = () => {
-    // Lấy filter từ localStorage nếu có, nếu không thì lấy mặc định
     const [sidebarVisible, setSidebarVisible] = useState(true);
     const [selectedBrands, setSelectedBrands] = useState(() => {
         try {
@@ -65,29 +66,32 @@ const Productpage = () => {
             return [];
         }
     });
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
     const location = useLocation();
     const type = location.state?.type;
 
-    // Lấy shoesData từ localStorage
-    const shoesData = React.useMemo(() => {
-        try {
-            return JSON.parse(localStorage.getItem('shoesData') || '[]');
-        } catch {
-            return [];
-        }
+    // Lấy data giày từ API mỗi lần vào trang
+    useEffect(() => {
+        setLoading(true);
+        fetchAllProducts().then((data) => {
+            setProducts(Array.isArray(data) ? data : []);
+            setLoading(false);
+        });
     }, []);
 
-    // Lọc theo type từ state trước (loại bỏ 'newarrival' khỏi type, dùng isNewArrival)
-    let typeFilteredProducts = shoesData;
+    // Lọc theo type từ state trước (loại bỏ 'newarrival' khỏi type, dùng isArrivals)
+    let typeFilteredProducts = products;
     if (type === 'newarrival') {
-        typeFilteredProducts = shoesData.filter(item => item.isArrivals);
+        typeFilteredProducts = products.filter(item => item.isArrivals);
     } else if (type === 'men') {
-        typeFilteredProducts = shoesData.filter(item => item.gender === 'male');
+        typeFilteredProducts = products.filter(item => item.gender === 'male');
     } else if (type === 'women') {
-        typeFilteredProducts = shoesData.filter(item => item.gender === 'female');
+        typeFilteredProducts = products.filter(item => item.gender === 'female');
     } else if (type === 'kid') {
-        typeFilteredProducts = shoesData.filter(item => item.gender === 'kid');
+        typeFilteredProducts = products.filter(item => item.gender === 'kid');
     }
 
     // Lọc sản phẩm theo filter và search
@@ -183,8 +187,43 @@ const Productpage = () => {
         localStorage.setItem('search', search);
     }, [search]);
 
+    // Xử lý payment-cancel
+    useEffect(() => {
+        if (location.pathname === "/payment-cancel") {
+            const params = new URLSearchParams(location.search);
+            const status = params.get("status");
+            const orderCode = params.get("orderCode");
+            if (status && orderCode) {
+                payosReturn({ status, orderCode, token })
+                    .then(res => {
+                        message.info("Đã huỷ thanh toán");
+                    })
+                    .catch(() => {
+                        message.error("Không thể xử lý trạng thái thanh toán!");
+                    });
+                sessionStorage.removeItem("cart");
+            }
+        }
+        // Xử lý payment-success
+        if (location.pathname === "/payment-success") {
+            const params = new URLSearchParams(location.search);
+            const status = params.get("status");
+            const orderCode = params.get("orderCode");
+            if (status && orderCode) {
+                payosReturn({ status, orderCode, token })
+                    .then(res => {
+                        message.success("Thanh toán thành công!");
+                    })
+                    .catch(() => {
+                        message.error("Không thể xác nhận thanh toán!");
+                    });
+                sessionStorage.removeItem("cart");
+            }
+        }
+    }, [location]);
+
     return (
-        <div style={{ background: '#fff', padding: '30px', minHeight: '100vh' }}>
+        <div style={{ background: 'linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%)', padding: '30px', minHeight: '100vh' }}>
             <Row gutter={32} style={{ maxWidth: 1500, margin: '0 auto' }}>
                 {/* Sidebar */}
                 {sidebarVisible && (
@@ -192,14 +231,14 @@ const Productpage = () => {
                         <div style={{ background: '#fff', borderRadius: 12, padding: 24, boxShadow: '0 2px 16px #f3f3f3' }}>
                             {/* Search box */}
                             <Search
-                                placeholder="Search product..."
+                                placeholder="Tìm kiếm sản phẩm..."
                                 value={search}
                                 onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
                                 style={{ marginBottom: 24, borderRadius: 8 }}
                                 allowClear
                             />
                             {/* Category filter */}
-                            <div style={{ fontWeight: 700, marginBottom: 16 }}>Category</div>
+                            <div style={{ fontWeight: 700, marginBottom: 16 }}>Danh mục</div>
                             <Checkbox.Group
                                 value={selectedCategories}
                                 onChange={list => { setSelectedCategories(list); setCurrentPage(1); }}
@@ -220,7 +259,7 @@ const Productpage = () => {
                                 ))}
                             </Checkbox.Group>
                             
-                            <div style={{ fontWeight: 700, marginBottom: 16 }}>Brand</div>
+                            <div style={{ fontWeight: 700, marginBottom: 16 }}>Thương hiệu</div>
                             <Checkbox.Group
                                 value={selectedBrands}
                                 onChange={list => { setSelectedBrands(list); setCurrentPage(1); }}
@@ -241,7 +280,7 @@ const Productpage = () => {
 
                                 ))}
                             </Checkbox.Group>
-                            <div style={{ fontWeight: 700, marginBottom: 8 }}>Price range</div>
+                            <div style={{ fontWeight: 700, marginBottom: 8 }}>Khoảng giá</div>
                             <Slider
                                 range
                                 min={0}
@@ -252,7 +291,7 @@ const Productpage = () => {
                                 tipFormatter={v => `${v / 1000000}M`}
                                 style={{ marginBottom: 24 }}
                             />
-                            <div style={{ fontWeight: 700, marginBottom: 8 }}>Size</div>
+                            <div style={{ fontWeight: 700, marginBottom: 8 }}>Kích cỡ</div>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'flex-start' }}>
                                 {sizes.map(size => (
                                     <Button
@@ -310,7 +349,7 @@ const Productpage = () => {
                                     localStorage.removeItem('currentPage');
                                 }}
                             >
-                                Clear filter
+                                Xóa bộ lọc
                             </Button>
                         </div>
                     </Col>
@@ -319,128 +358,118 @@ const Productpage = () => {
                 <Col xs={24} sm={24} md={sidebarVisible ? 19 : 24} lg={sidebarVisible ? 19 : 24}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ marginBottom: 24, fontWeight: 700, fontSize: 22 }}>
-                            {type === 'men' && 'Men Shoes'}
-                            {type === 'women' && 'Women Shoes'}
-                            {type === 'kid' && 'Kids Shoes'}
-                            {type === 'newarrival' && 'The new arrivals'}
-                            {type === 'all' && 'All Products'}
+                            {type === 'men' && 'Giày Nam'}
+                            {type === 'women' && 'Giày Nữ'}
+                            {type === 'kid' && 'Giày Trẻ Em'}
+                            {type === 'newarrival' && 'Sản phẩm mới'}
+                            {type === 'all' && 'Tất cả sản phẩm'}
                         </div>
                         <IoOptionsOutline
                             style={{ fontSize: 25, cursor: 'pointer' }}
                             onClick={() => setSidebarVisible(v => !v)}
                         />
                     </div>
-                    <Row gutter={[24, 24]}>
-                        {pagedProducts.length === 0 && (
-                            <Col span={24} style={{ textAlign: 'center', color: '#888', padding: 40 }}>
-                                No products found.
-                            </Col>
-                        )}
-                        {pagedProducts.map((item, idx) => (
-                            <Col xs={24} sm={12} md={8} lg={8} key={item.productId}>
-                                <Card
-                                    hoverable
-                                    onClick={() => navigate(`/detail/${item.productId}`)}
-                                    cover={
-                                        <div
+                    {loading ? (
+                        <div style={{ width: "100%", textAlign: "center", padding: "80px 0" }}>
+                            <Spin size="large" tip="Đang tải sản phẩm..." />
+                        </div>
+                    ) : (
+                        <>
+                            <Row gutter={[24, 24]}>
+                                {pagedProducts.length === 0 && (
+                                    <Col span={24} style={{ textAlign: 'center', color: '#888', padding: 40 }}>
+                                        Không tìm thấy sản phẩm nào.
+                                    </Col>
+                                )}
+                                {pagedProducts.map((item, idx) => (
+                                    <Col xs={24} sm={12} md={8} lg={8} key={item.productId}>
+                                        <Card
+                                            hoverable
+                                            onClick={() => navigate(`/detail/${item.productId}`)}
+                                            cover={
+                                                <div
+                                                    style={{
+                                                        width: '100%',
+                                                        aspectRatio: '1/1',
+                                                        background: '#fafbfc',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        borderRadius: 12,
+                                                        overflow: 'hidden',
+                                                        position: 'relative'
+                                                    }}
+                                                    className="custom-card-cover"
+                                                >
+                                                    <img
+                                                        alt={item.productName}
+                                                        src={item.productImage}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            transition: 'transform 0.3s',
+                                                        }}
+                                                        className="custom-card-img"
+                                                    />
+                                                    <span
+                                                        key="fav"
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: 12,
+                                                            right: 12,
+                                                            color: favorites.includes(item.productId) ? '#e1306c' : '#bbb',
+                                                            fontSize: 22,
+                                                            background: 'transparent',
+                                                            borderRadius: '50%',
+                                                            zIndex: 2,
+                                                            cursor: 'pointer'
+                                                        }}
+                                                        onClick={e => {
+                                                            e.stopPropagation();
+                                                            handleFavorite(item.productId);
+                                                        }}
+                                                    >
+                                                        {favorites.includes(item.productId)
+                                                            ? <HeartFilled />
+                                                            : <HeartOutlined />}
+                                                    </span>
+                                                </div>
+                                            }
                                             style={{
-                                                width: '100%',
-                                                aspectRatio: '1/1',
-                                                background: '#fafbfc',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
                                                 borderRadius: 12,
-                                                overflow: 'hidden',
-                                                position: 'relative'
+                                                boxShadow: '0 2px 16px #f3f3f3',
+                                                border: '1px solid #ffffff',
+                                                transition: 'box-shadow 0.3s, transform 0.3s',
+                                                cursor: 'pointer'
                                             }}
-                                            className="custom-card-cover"
+                                            bodyStyle={{ textAlign: 'center', minHeight: 80 }}
+                                            className="custom-card"
                                         >
-                                            <img
-                                                alt={item.productName}
-                                                src={item.productImage}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
-                                                    transition: 'transform 0.3s',
-                                                }}
-                                                className="custom-card-img"
-                                            />
-                                            <span
-                                                key="fav"
-                                                style={{
-                                                    position: 'absolute',
-                                                    top: 12,
-                                                    right: 12,
-                                                    color: favorites.includes(item.productId) ? '#e1306c' : '#bbb',
-                                                    fontSize: 22,
-                                                    background: 'transparent',
-                                                    borderRadius: '50%',
-                                                    zIndex: 2,
-                                                    cursor: 'pointer'
-                                                }}
-                                                onClick={e => {
-                                                    e.stopPropagation();
-                                                    handleFavorite(item.productId);
-                                                }}
-                                            >
-                                                {favorites.includes(item.productId)
-                                                    ? <HeartFilled />
-                                                    : <HeartOutlined />}
-                                            </span>
-                                        </div>
-                                    }
-                                    style={{
-                                        borderRadius: 12,
-                                        boxShadow: '0 2px 16px #f3f3f3',
-                                        border: '1px solid #ffffff',
-                                        transition: 'box-shadow 0.3s, transform 0.3s',
-                                        cursor: 'pointer'
-                                    }}
-                                    bodyStyle={{ textAlign: 'center', minHeight: 80 }}
-                                    className="custom-card"
-                                >
-                                    <div style={{ fontWeight: 600 }}>{item.productName}</div>
-                                    <div style={{ color: '#888', marginTop: 4 }}>
-                                        {Number(item.price).toLocaleString('vi-VN')} ₫
-                                    </div>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                    <div style={{ marginTop: 32, textAlign: 'center' }}>
-                        {filteredProducts.length > PAGE_SIZE && (
-                            <Pagination
-                                style={{ display: 'flex', justifyContent: 'center' }}
-                                current={currentPage}
-                                total={filteredProducts.length}
-                                pageSize={PAGE_SIZE}
-                                onChange={page => setCurrentPage(page)}
-                            />
-                        )}
-                    </div>
+                                            <div style={{ fontWeight: 600 }}>{item.productName}</div>
+                                            <div style={{ color: '#888', marginTop: 4 }}>
+                                                {Number(item.price).toLocaleString('vi-VN')} ₫
+                                            </div>
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                            <div style={{ marginTop: 32, textAlign: 'center' }}>
+                                {filteredProducts.length > PAGE_SIZE && (
+                                    <Pagination
+                                        style={{ display: 'flex', justifyContent: 'center' }}
+                                        current={currentPage}
+                                        total={filteredProducts.length}
+                                        pageSize={PAGE_SIZE}
+                                        onChange={page => setCurrentPage(page)}
+                                    />
+                                )}
+                            </div>
+                        </>
+                    )}
                 </Col>
             </Row>
-            <Button
-                type="default"
-                style={{
-                    position: "fixed",
-                    bottom: 24,
-                    right: 24,
-                    zIndex: 1000,
-                    borderRadius: 8,
-                    fontWeight: 600,
-                    borderColor: "#bbb"
-                }}
-                onClick={() => {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    window.location.reload();
-                }}
-            >
-                Clear Session & LocalStorage
-            </Button>
+            
         </div>
     );
 };

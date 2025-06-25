@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { getAllRoles } from "../utils/roleApi";
 
 const PrivateRoute = ({ children, allowedRoles }) => {
-  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const user = JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user") || "{}");
@@ -11,11 +9,7 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
   useEffect(() => {
     const fetchRoles = async () => {
-      const res = await getAllRoles(token);
-      // SỬA: lấy từ res.data.role thay vì res.data.roles
-      if (res.ok && res.data && Array.isArray(res.data.role)) {
-        setRoles(res.data.role);
-      }
+      
       setLoading(false);
     };
     fetchRoles();

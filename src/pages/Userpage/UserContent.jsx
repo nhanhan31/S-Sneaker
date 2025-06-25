@@ -55,14 +55,14 @@ const UserContent = () => {
         <Spin spinning={loading}>
             <div style={{ borderBottom: "1px solid #eee", marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <Title level={3} style={{ margin: 0, color: "rgb(0, 0, 0)", fontWeight: 700, fontSize: 32 }}>
-                    User Manage
+                    Quản lý tài khoản
                 </Title>
                 <Button
                     type="primary"
                     style={{ background: "#111", borderColor: "#111", fontWeight: 600 }}
                     onClick={() => navigate("/user/edit-info")}
                 >
-                    Edit Infomation
+                    Chỉnh sửa thông tin
                 </Button>
             </div>
             <div style={{ marginBottom: 24, fontSize: 18 }}>
@@ -80,25 +80,25 @@ const UserContent = () => {
                 <div style={{ minWidth: 220, fontSize: 18 }}>
                     {user?.firstName && user?.lastName && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Full Name</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Họ và tên</Text>
                             <div style={{ fontSize: 18 }}>{user.firstName} {user.lastName}</div>
                         </div>
                     )}
                     {user?.phoneNumber && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Phone</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Số điện thoại</Text>
                             <div style={{ fontSize: 18 }}>{user.phoneNumber}</div>
                         </div>
                     )}
                     {user?.bankName && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Bank Name</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Ngân hàng</Text>
                             <div style={{ fontSize: 18 }}>{user.bankName}</div>
                         </div>
                     )}
                     {user?.bankAccountNumber && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Bank Account Number</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Số tài khoản</Text>
                             <div style={{ fontSize: 18 }}>{user.bankAccountNumber}</div>
                         </div>
                     )}
@@ -106,25 +106,25 @@ const UserContent = () => {
                 <div style={{ minWidth: 220, fontSize: 18 }}>
                     {user?.address && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Address</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Địa chỉ</Text>
                             <div style={{ fontSize: 18 }}>{user.address}</div>
                         </div>
                     )}
                     {user?.province && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Province</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Tỉnh/Thành phố</Text>
                             <div style={{ fontSize: 18 }}>{getProvinceName(user.province)}</div>
                         </div>
                     )}
                     {user?.district && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>District</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Quận/Huyện</Text>
                             <div style={{ fontSize: 18 }}>{getDistrictName(user.district)}</div>
                         </div>
                     )}
                     {user?.wardCode && (
                         <div style={{ marginBottom: 16 }}>
-                            <Text type="secondary" style={{ fontSize: 18 }}>Ward</Text>
+                            <Text type="secondary" style={{ fontSize: 18 }}>Phường/Xã</Text>
                             <div style={{ fontSize: 18 }}>{getWardName(user.wardCode)}</div>
                         </div>
                     )}

@@ -11,9 +11,9 @@ const Userpage = () => {
   const location = useLocation();
 
   const menuItems = [
-    { key: "user", label: "Infomation" },
-    { key: "edit", label: "Edit Infomation" },
-    { key: "order", label: "Order" },
+    { key: "user", label: "Thông tin" },
+    { key: "edit", label: "Chỉnh sửa thông tin" },
+    { key: "order", label: "Đơn hàng" },
   ];
 
   const selectedKey =

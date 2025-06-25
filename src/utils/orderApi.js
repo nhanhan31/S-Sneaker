@@ -38,3 +38,34 @@ export const getOrdersByUserId = async (userId, token) => {
     return [];
   }
 };
+
+export const getOrderShippingStatus = async (shippingCode, token) => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/api/ghn/order-status/${shippingCode}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return res.data;
+  } catch {
+    return null;
+  }
+};
+
+export const getOrderById = async (orderId, token) => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/api/get-order-by-id/${orderId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (res.data.errCode === 0 && res.data.order) {
+      return res.data.order;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+};

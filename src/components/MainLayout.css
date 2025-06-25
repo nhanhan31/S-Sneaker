@@ -1,0 +1,305 @@
+/* Mobile-first responsive design */
+.homepage {
+  min-height: 100vh;
+}
+
+/* Header responsive styles */
+.header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Logo responsive styles */
+.logo {
+  transition: all 0.3s ease;
+}
+
+.logo img {
+  transition: all 0.3s ease;
+}
+
+/* Header icons responsive */
+.header-icons {
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .header-icons {
+    gap: 8px;
+  }
+}
+
+/* Mobile drawer styles */
+.mobile-drawer .ant-drawer-content {
+  background: #fff;
+}
+
+.mobile-drawer .ant-drawer-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+  font-weight: 600;
+}
+
+.mobile-drawer .ant-drawer-body {
+  padding: 16px 24px;
+}
+
+/* Menu responsive styles */
+.ant-menu-horizontal > .ant-menu-item {
+  padding: 0 20px;
+  height: 64px;
+  line-height: 64px;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .ant-menu-horizontal > .ant-menu-item {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ant-menu-horizontal > .ant-menu-item {
+    padding: 0 12px;
+    font-size: 14px;
+  }
+}
+
+/* Footer responsive styles */
+.footer {
+  margin-top: auto;
+}
+
+/* Tablet and mobile breakpoints */
+@media (max-width: 1024px) {
+  .header {
+    padding: 0 12px !important;
+  }
+  
+  .logo {
+    font-size: 20px !important;
+    margin-right: 16px !important;
+  }
+  
+  .logo img {
+    width: 70px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 8px !important;
+    min-height: 56px !important;
+  }
+  
+  .logo {
+    font-size: 18px !important;
+    margin-right: 8px !important;
+  }
+  
+  .logo img {
+    width: 60px !important;
+  }
+  
+  .footer {
+    padding: 16px 12px !important;
+  }
+}
+
+/* Animation improvements */
+.ant-drawer {
+  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+
+.ant-badge {
+  transition: all 0.3s ease;
+}
+
+/* Hover effects for desktop */
+@media (min-width: 769px) {
+  .header-icons .anticon:hover {
+    color: #1890ff;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+  }
+  
+  .ant-menu-horizontal > .ant-menu-item:hover {
+    color: #1890ff;
+    border-bottom-color: #1890ff;
+  }
+  
+  .logo:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+}
+
+/* Responsive breakpoints */
+
+/* Tablet styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .ant-menu-horizontal > .ant-menu-item {
+    padding: 0 16px;
+    font-size: 15px;
+  }
+  
+  .header-icons {
+    gap: 16px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .header {
+    min-height: 56px !important;
+    padding: 0 12px !important;
+  }
+  
+  .logo {
+    font-size: 18px !important;
+    margin-right: 8px !important;
+  }
+  
+  .logo img {
+    width: 60px !important;
+  }
+  
+  .header-icons {
+    gap: 8px;
+  }
+  
+  /* Footer mobile adjustments */
+  .footer {
+    padding: 16px 12px !important;
+    text-align: center;
+  }
+  
+  /* Hide desktop navigation on mobile */
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .header {
+    padding: 0 8px !important;
+  }
+  
+  .logo {
+    font-size: 16px !important;
+    margin-right: 4px !important;
+  }
+  
+  .logo img {
+    width: 50px !important;
+  }
+  
+  .footer {
+    padding: 12px 8px !important;
+  }
+  
+  /* Drawer width adjustment for small screens */
+  .mobile-drawer {
+    width: 280px !important;
+  }
+}
+
+/* Landscape mobile devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .header {
+    min-height: 48px !important;
+  }
+  
+  .logo {
+    font-size: 16px !important;
+  }
+  
+  .logo img {
+    width: 48px !important;
+  }
+}
+
+/* Hover effects for desktop */
+@media (min-width: 769px) {
+  .ant-menu-horizontal > .ant-menu-item:hover {
+    background-color: rgba(24, 144, 255, 0.1);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .header-icons span:hover,
+  .header-icons .anticon:hover {
+    color: #1890ff !important;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+}
+
+/* Badge adjustments */
+.ant-badge {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* User avatar in drawer */
+.mobile-drawer .ant-avatar {
+  margin-right: 8px;
+}
+
+/* Drawer buttons */
+.mobile-drawer .ant-btn {
+  text-align: left;
+  border: none;
+  box-shadow: none;
+  font-weight: 400;
+}
+
+.mobile-drawer .ant-btn:hover {
+  background-color: #f5f5f5;
+}
+
+/* Social icons responsive */
+.social-icons span {
+  transition: all 0.3s ease;
+}
+
+.social-icons span:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+/* Animation for mobile drawer */
+.ant-drawer-content-wrapper {
+  transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+}
+
+/* Responsive text adjustments */
+@media (max-width: 768px) {
+  h1, h2, h3 {
+    font-size: 1.5rem;
+  }
+  
+  p, span {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+/* Content responsive padding */
+.ant-layout-content {
+  min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 768px) {
+  .ant-layout-content {
+    min-height: calc(100vh - 100px);
+  }
+}
