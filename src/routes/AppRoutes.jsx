@@ -28,7 +28,7 @@ const AppRoutes = () => (
       <Route path="/product" element={<Productpage />} />
       <Route path="/detail/:id" element={<ProductDetailpage />} />
       <Route
-        path="/cart"
+        path="cart"
         element={
           <PrivateRoute allowedRoles={[1, 4, 5]}>
             <Cartpage />
@@ -36,7 +36,7 @@ const AppRoutes = () => (
         }
       />
       <Route
-        path="/checkout"
+        path="checkout"
         element={
           <PrivateRoute allowedRoles={[1, 4, 5]}>
             <Checkoutpage />
@@ -44,7 +44,7 @@ const AppRoutes = () => (
         }
       />
       <Route
-        path="/favorite"
+        path="favorite"
         element={
           <PrivateRoute allowedRoles={[1, 4, 5]}>
             <Favoritepage />
@@ -76,9 +76,9 @@ const AppRoutes = () => (
         }
       >
         <Route index element={<UserContent />} />
-        <Route path="/edit-info" element={<EditInfo />} />
-        <Route path="/order" element={<OrderPage />} />
-        <Route path="/shipping-status/:orderId" element={<ShippingStatus />} />
+        <Route path="edit-info" element={<EditInfo />} />
+        <Route path="order" element={<OrderPage />} />
+        <Route path="shipping-status/:orderId" element={<ShippingStatus />} />
       </Route>   
     </Route>
     <Route
@@ -89,10 +89,10 @@ const AppRoutes = () => (
         </PrivateRoute>
       }
     >
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/order" element={<AdminOrder />} />
-      <Route path="/product" element={ <AdminProductPage/>} />
-      <Route path="/product/:id" element={<AdminProductDetailPage/>} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="order" element={<AdminOrder />} />
+      <Route path="product" element={ <AdminProductPage/>} />
+      <Route path="product/:id" element={<AdminProductDetailPage/>} />
     </Route>
     <Route path="*" element={<div>404 Not Found</div>} />
   </Routes>
