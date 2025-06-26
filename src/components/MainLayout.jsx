@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, Badge, Divider, Avatar, Drawer, Button } from 'antd';
-import { ShoppingCartOutlined, UserOutlined, InstagramOutlined, FacebookFilled, TikTokOutlined, HeartOutlined, MenuOutlined, DashboardOutlined } from '@ant-design/icons';
+import { Layout, Menu, Badge, Divider, Avatar, Drawer, Button, FloatButton } from 'antd';
+import { ShoppingCartOutlined, UserOutlined, InstagramOutlined, FacebookFilled, TikTokOutlined, HeartOutlined, MenuOutlined, DashboardOutlined, PhoneOutlined, MessageOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import './MainLayout.css';
 import { getCartByUserId } from '../utils/cartApi';
@@ -9,6 +9,7 @@ import { Dropdown } from 'antd';
 import { getUserDetail } from '../utils/userApi';
 import { fetchAllProducts } from '../utils/productApi';
 import BotpressChat from './BotpressChat';
+import { SiZalo } from "react-icons/si";
 
 const { Header, Footer, Content } = Layout;
 
@@ -593,6 +594,44 @@ const MainLayout = () => {
           </div>
         </div>
       </Footer>
+
+      {/* Float Button for Contact */}
+      <FloatButton.Group
+        trigger="click"
+        type="primary"
+        style={{ 
+          zIndex: 1001
+        }}
+        icon={<CustomerServiceOutlined />}
+        tooltip="Liên hệ hỗ trợ"
+        description="Hỗ trợ"
+      >
+        <FloatButton
+          icon={<PhoneOutlined style={{fontSize: 24}}/>}
+          tooltip="Gọi ngay: 0346522836"
+          onClick={() => {
+            if (isMobile) {
+              window.open('tel:0346522836');
+            } else {
+              // Desktop: copy số điện thoại và hiển thị thông báo
+              navigator.clipboard.writeText('0346522836').then(() => {
+                alert('Số điện thoại đã được sao chép vào clipboard: 0346522836');
+                // Có thể thêm notification ở đây
+              });
+            }
+          }}
+        />
+        <FloatButton
+          icon={<FacebookFilled style={{fontSize: 24}}/>}
+          tooltip="Facebook S-Sneaker"
+          onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')}
+        />
+        <FloatButton
+          icon={<SiZalo style={{fontSize: 24}}/>}
+          tooltip="Chat Zalo: 0346522836"
+          onClick={() => window.open('https://zalo.me/0346522836', '_blank')}
+        />
+      </FloatButton.Group>
     </Layout>
   );
 };

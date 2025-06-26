@@ -303,3 +303,128 @@
     min-height: calc(100vh - 100px);
   }
 }
+
+/* Float Button Styles */
+.ant-float-btn-primary .ant-float-btn-body{
+  background-color: #000000 !important;
+  border-color: #111 !important;
+  color: #111 !important;
+}
+.ant-float-btn-default .ant-float-btn-body {
+  background-color: #111 !important;
+}
+.ant-float-btn-group-top>.ant-float-btn-group-wrap{
+  bottom: 5rem !important;
+}
+
+.ant-float-btn-group .ant-float-btn {
+  background: #111 !important;
+  border-color: #111 !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-float-btn-group .ant-float-btn:hover {
+  background: #333 !important;
+  border-color: #333 !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+.ant-float-btn-group .ant-float-btn-primary {
+  background: #111 !important;
+  border-color: #111 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.ant-float-btn-group .ant-float-btn-primary:hover {
+  background: #333 !important;
+  border-color: #333 !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Float Button Icon Colors */
+.ant-float-btn-group .ant-float-btn .ant-float-btn-icon {
+  color: #fff !important;
+}
+
+.ant-float-btn-group .ant-float-btn .ant-float-btn-icon svg {
+  transition: all 0.3s ease !important;
+}
+
+.ant-float-btn-group .ant-float-btn:hover .ant-float-btn-icon svg {
+  transform: scale(1.1) !important;
+}
+
+/* Float Button Description */
+.ant-float-btn-group .ant-float-btn-primary .ant-float-btn-description {
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+/* Tooltip Styles */
+.ant-tooltip .ant-tooltip-inner {
+  background: #111 !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+}
+
+.ant-tooltip .ant-tooltip-arrow::before {
+  background: #111 !important;
+}
+
+.ant-float-btn-group {
+    right: 1.5rem !important;
+    bottom: 7rem !important;
+  }
+
+.ant-float-btn-group .ant-float-btn {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+  
+  .ant-float-btn-group .ant-float-btn-primary {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+/* Responsive Float Button */
+@media (max-width: 768px) {
+  .ant-float-btn-group {
+    right: 1.5rem !important;
+    bottom: 7rem !important;
+  }
+  
+  .ant-float-btn-group .ant-float-btn {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+  
+  .ant-float-btn-group .ant-float-btn-primary {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+  
+  .ant-float-btn-group .ant-float-btn .ant-float-btn-icon {
+    font-size: 18px !important;
+  }
+}
+
+/* Animation for Float Button */
+@keyframes floatButtonPulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.ant-float-btn-group .ant-float-btn-primary {
+  animation: floatButtonPulse 3s ease-in-out infinite !important;
+}
