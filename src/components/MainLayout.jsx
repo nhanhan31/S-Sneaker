@@ -550,19 +550,9 @@ const MainLayout = () => {
                   fontSize: isMobile ? 14 : 16,
                   color: '#1da1f2'
                 }}>
-                  <TikTokOutlined />
+                  <TikTokOutlined onClick={() => window.open('https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.tiktok.com%2F%40s.sneaker03%3F_t%3DZS-8xVNxcOrgji%26_r%3D1%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExbU5kTUp2ZTRWQTEwWEtCWgEeckaUfMOlPU9pa8_y3U3Biik10owr7j7W0PqaEPSU6hfAkRp0s5wPnC5iVvI_aem_oycSJJIe2htTrSaA8oI44w&h=AT2b960BOuuO-9hyQpvSIOzJq5veYAin4BzOTZ3sDSeXiJXxN3aeUSCmxqf1ufF0BXSLD3Gl2ND67kNfzuF_3D_xZINBfUIoVlG0OJXtFHvLp6jHRo1gL0igVomd1SkSGEAL91PboEQEmUQ', '_blank')}/>
                 </span>
-                <span style={{
-                  display: 'inline-block',
-                  background: '#f5f5f5',
-                  borderRadius: 6,
-                  padding: '4px 7px',
-                  margin: '0 3px',
-                  fontSize: isMobile ? 14 : 16,
-                  color: '#e1306c'
-                }}>
-                  <InstagramOutlined />
-                </span>
+                
                 <span style={{
                   display: 'inline-block',
                   background: '#f5f5f5',
@@ -572,7 +562,7 @@ const MainLayout = () => {
                   fontSize: isMobile ? 14 : 16,
                   color: '#4267B2'
                 }}>
-                  <FacebookFilled />
+                  <FacebookFilled onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')}/>
                 </span>
               </span>
             </div>
