@@ -206,43 +206,104 @@ const Checkoutpage = () => {
     const handleSaveInfo = (checked) => {
         if (checked) {
             Modal.confirm({
-                title: "Xác nhận lưu thông tin?",
                 content: "Bạn có chắc muốn lưu thông tin giao hàng này cho lần sau?",
-                okText: "Có",
-                cancelText: "Không",
-                onOk: async () => {
-                    // Lấy đúng trường từ form
-                    const userInfo = form.getFieldsValue([
-                        "firstName",
-                        "lastName",
-                        "phoneNumber",
-                        "address",
-                        "wardCode",
-                        "district",
-                        "province"
-                    ]);
-                    try {
-                        // Gửi lên backend với trường wardCode
-                        await updateUser(user.userId, { ...userInfo }, token);
-                        // Cập nhật lại user trong localStorage
-                        const userLocal = JSON.parse(localStorage.getItem("user") || "{}");
-                        localStorage.setItem("user", JSON.stringify({
-                            ...userLocal,
-                            ...userInfo
-                        }));
-                        // Sau khi lưu thành công
-                        message.success("Đã lưu thông tin giao hàng!");
-                        form.setFieldsValue({ saveInfo: false });
-                        setIsChanged(false); // Nếu bạn dùng isChanged để điều khiển disabled
-                        form.resetFields(['saveInfo']); // Đảm bảo checkbox bỏ check
-                    } catch {
-                        message.error("Lưu thông tin thất bại!");
-                    }
-                },
+                icon: null,
+                centered: true,
+                width: 420,
+                maskClosable: false,
+                footer: null, // Bỏ footer mặc định
                 onCancel: () => {
-                    // Nếu không xác nhận thì bỏ check
+                    // Nếu đóng modal thì bỏ check
                     form.setFieldsValue({ saveInfo: false });
-                }
+                },
+                content: (
+                    <div style={{ padding: "20px 0" }}>
+                        <div style={{ 
+                            fontSize: 18, 
+                            fontWeight: 600, 
+                            marginBottom: 16,
+                            color: "#333"
+                        }}>
+                            Xác nhận lưu thông tin?
+                        </div>
+                        <div style={{ 
+                            fontSize: 15, 
+                            color: "#666", 
+                            marginBottom: 32,
+                            lineHeight: 1.5
+                        }}>
+                            Bạn có chắc muốn lưu thông tin giao hàng này cho lần mua hàng tiếp theo không?
+                        </div>
+                        <div style={{ 
+                            display: "flex", 
+                            gap: 12, 
+                            justifyContent: "flex-end" 
+                        }}>
+                            <Button
+                                size="large"
+                                style={{
+                                    borderColor: "#d9d9d9",
+                                    color: "#666",
+                                    fontWeight: 500,
+                                    minWidth: 100,
+                                    height: 42,
+                                    borderRadius: 6
+                                }}
+                                onClick={() => {
+                                    Modal.destroyAll();
+                                    form.setFieldsValue({ saveInfo: false });
+                                }}
+                            >
+                                Hủy
+                            </Button>
+                            <Button
+                                type="primary"
+                                size="large"
+                                style={{
+                                    background: "#111",
+                                    borderColor: "#111",
+                                    fontWeight: 600,
+                                    minWidth: 100,
+                                    height: 42,
+                                    borderRadius: 6
+                                }}
+                                onClick={async () => {
+                                    Modal.destroyAll();
+                                    // Lấy đúng trường từ form
+                                    const userInfo = form.getFieldsValue([
+                                        "firstName",
+                                        "lastName",
+                                        "phoneNumber",
+                                        "address",
+                                        "wardCode",
+                                        "district",
+                                        "province"
+                                    ]);
+                                    try {
+                                        // Gửi lên backend với trường wardCode
+                                        await updateUser(user.userId, { ...userInfo }, token);
+                                        // Cập nhật lại user trong localStorage
+                                        const userLocal = JSON.parse(localStorage.getItem("user") || "{}");
+                                        localStorage.setItem("user", JSON.stringify({
+                                            ...userLocal,
+                                            ...userInfo
+                                        }));
+                                        // Sau khi lưu thành công
+                                        message.success("Đã lưu thông tin giao hàng!");
+                                        form.setFieldsValue({ saveInfo: false });
+                                        setIsChanged(false);
+                                        form.resetFields(['saveInfo']);
+                                    } catch {
+                                        message.error("Lưu thông tin thất bại!");
+                                        form.setFieldsValue({ saveInfo: false });
+                                    }
+                                }}
+                            >
+                                Xác nhận
+                            </Button>
+                        </div>
+                    </div>
+                )
             });
         }
     };
