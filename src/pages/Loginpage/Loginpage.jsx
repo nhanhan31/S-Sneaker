@@ -176,7 +176,7 @@ const Loginpage = () => {
             </Checkbox>
           </ConfigProvider>
 
-          <a href="#" style={{ color: "#888", fontSize: 13 }}>Quên mật khẩu?</a>
+          {/* <a href="#" style={{ color: "#888", fontSize: 13 }}>Quên mật khẩu?</a> */}
         </div>
         <Button
           type="primary"
