@@ -232,7 +232,7 @@ const Productpage = () => {
                     .then(res => {
                         message.success("Thanh toán thành công!");
                         sessionStorage.removeItem("cart");
-                        navigate("/user/orders");
+                        navigate("/user/order");
                     })
                     .catch(() => {
                         message.error("Không thể xác nhận thanh toán!");

@@ -30,11 +30,11 @@ const OrderPage = () => {
     const getStatusColor = (status) => {
         switch (status) {
             case 'Pending':
-                return { backgroundColor: 'rgb(0, 0, 0)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(0, 0, 0)' };
+                return { backgroundColor: 'rgba(255, 217, 0, 0.63)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(255, 217, 0)' };
             case 'Paid':
-                return { backgroundColor: 'rgb(0, 0, 0)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(0, 0, 0)' };
+                return { backgroundColor: 'rgba(30, 255, 0, 0.71)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(30, 255, 0)' };
             case 'Failed':
-                return { backgroundColor: 'rgb(0, 0, 0)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(0, 0, 0)' };
+                return { backgroundColor: 'rgba(255, 0, 0, 0.69)', color: 'rgb(255, 255, 255)', borderColor: 'rgb(255, 0, 0)' };
             default:
                 return { backgroundColor: 'rgb(36, 36, 36)', color: '#fff', borderColor: '#222' };
         }
@@ -43,7 +43,7 @@ const OrderPage = () => {
     // Function để xử lý thanh toán lại
     const handleRetryPayment = (paymentUrl) => {
         if (paymentUrl) {
-            window.open(paymentUrl, '_blank');
+            window.location.href=paymentUrl;
         }
     };
 
