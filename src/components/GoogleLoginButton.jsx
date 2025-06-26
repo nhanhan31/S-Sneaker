@@ -72,12 +72,12 @@ const GoogleLoginButton = ({
             block={block}
             icon={<GoogleOutlined style={{ color: "rgb(66, 133, 244)" }} />}
             style={{
-                background: "#fff",
+                background: "rgb(0, 0, 0)",
                 border: "1px solid #dadce0",
                 fontWeight: 500,
                 borderRadius: 6,
                 height: 38,
-                color: "#3c4043",
+                color: "rgb(255, 255, 255)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

@@ -153,7 +153,7 @@ const Registerpage = () => {
         <div style={{ fontWeight: 600, color: "#888", marginBottom: 8, fontSize: 13 }}>TẠO TÀI KHOẢN MỚI</div>
         <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 18 }}>Đăng ký tài khoản</div>
         
-        <div style={{ marginBottom: 14 }}>
+        <div style={{ marginBottom: 40 }}>
           {/* Họ và Tên */}
           <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
             <div style={{ flex: 1 }}>
@@ -227,7 +227,9 @@ const Registerpage = () => {
             fontWeight: 600,
             marginBottom: 18,
             borderRadius: 6,
-            height: 40
+            height: 40,
+            border: "1px solid #dadce0",
+            transition: "all 0.2s ease",
           }}
           onClick={handleRegister}
         >

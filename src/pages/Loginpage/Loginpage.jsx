@@ -189,7 +189,9 @@ const Loginpage = () => {
             fontWeight: 600,
             marginBottom: 18,
             borderRadius: 6,
-            height: 40
+            height: 40,
+            transition: "all 0.2s ease",
+            border: "1px solid #dadce0",
           }}
           onClick={handleLogin}
         >
