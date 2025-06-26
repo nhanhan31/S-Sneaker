@@ -42,7 +42,7 @@ export const deleteOrderByCode = async (orderCode) => {
 // Lấy orders theo userId (nếu chưa có)
 export const getOrdersByUserId = async (userId, token) => {
   try {
-    const response = await apiClient.get(`/api/orders/user/${userId}`, {
+    const response = await apiClient.get(`/api/get-order-by-user-id/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
