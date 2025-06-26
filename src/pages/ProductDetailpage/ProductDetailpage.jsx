@@ -404,7 +404,16 @@ const ProductDetailpage = () => {
           </div>
           {descOpen && (
             <div style={{ color: '#444', marginBottom: 16, fontSize: 15, lineHeight: 1.7 }}>
-              {product.description}
+              {product.description
+                .split('✔️')
+                .map((part, index) => (
+                  index === 0 ? part : (
+                    <span key={index}>
+                      <br />- {part}
+                    </span>
+                  )
+                ))
+              }
             </div>
           )}
         </div>

@@ -288,7 +288,7 @@ const Registerpage = () => {
           ĐĂNG KÝ
         </Button>
         
-        <div style={{ textAlign: "center", color: "#888", margin: "2px 0 14px 0", fontSize: screenSize.isMobile ? 12 : 13 }}>Hoặc</div>
+        {/* <div style={{ textAlign: "center", color: "#888", margin: "2px 0 14px 0", fontSize: screenSize.isMobile ? 12 : 13 }}>Hoặc</div>
         
         <GoogleLoginButton 
           loading={loading}
@@ -300,7 +300,7 @@ const Registerpage = () => {
           }}
         >
           Đăng ký với Google
-        </GoogleLoginButton>
+        </GoogleLoginButton> */}
 
         <div style={{ textAlign: "center", marginTop: screenSize.isMobile ? 8 : 12, color: "#888", fontSize: screenSize.isMobile ? 12 : 13 }}>
           Đã có tài khoản? <a href="/login" style={{ fontWeight: 600, color: "#111" }}>ĐĂNG NHẬP TẠI ĐÂY</a>

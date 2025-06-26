@@ -249,7 +249,7 @@ const Loginpage = () => {
         >
           TIẾP TỤC
         </Button>
-        <div style={{ textAlign: "center", color: "#888", margin: "2px 0 14px 0", fontSize: screenSize.isMobile ? 12 : 13 }}>Hoặc</div>
+        {/* <div style={{ textAlign: "center", color: "#888", margin: "2px 0 14px 0", fontSize: screenSize.isMobile ? 12 : 13 }}>Hoặc</div>
         
         <GoogleLoginButton 
           loading={loading}
@@ -259,7 +259,7 @@ const Loginpage = () => {
             height: screenSize.isMobile ? 36 : 38,
             fontSize: screenSize.isMobile ? 14 : 16
           }}
-        />
+        /> */}
 
         <div style={{ textAlign: "center", marginTop: screenSize.isMobile ? 14 : 18, color: "#888", fontSize: screenSize.isMobile ? 12 : 13 }}>
           Người dùng mới? <a href="/register" style={{ fontWeight: 600, color: "#111" }}>ĐĂNG KÝ TẠI ĐÂY</a>
