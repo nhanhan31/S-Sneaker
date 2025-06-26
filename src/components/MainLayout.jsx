@@ -623,12 +623,12 @@ const MainLayout = () => {
         />
         <FloatButton
           icon={<FacebookFilled style={{fontSize: 24}}/>}
-          tooltip="Facebook S-Sneaker"
+          tooltip="Facebook"
           onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')}
         />
         <FloatButton
           icon={<SiZalo style={{fontSize: 24}}/>}
-          tooltip="Chat Zalo: 0346522836"
+          tooltip="Chat Zalo"
           onClick={() => window.open('https://zalo.me/0346522836', '_blank')}
         />
       </FloatButton.Group>
