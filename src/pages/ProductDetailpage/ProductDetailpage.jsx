@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addProductToFavorite, deleteFavoriteByProductId } from "../../utils/favoriteApi";
 import { addProductToCart } from "../../utils/cartApi";
 import { fetchProductById } from "../../utils/productApi"; // Thêm dòng này
+import { parseImageArray } from '../../utils/imageUtils';
 import "./ProductDetailpage.css";
 
 const ProductDetailpage = () => {
@@ -30,10 +31,11 @@ const ProductDetailpage = () => {
     });
   }, [id]);
 
-  // SỬA: lấy mảng ảnh từ productDetailImg và thêm productImage vào đầu mảng (nếu có)
+  // SỬA: Sử dụng utility function
+  const detailImages = parseImageArray(product?.productDetailImg);
   const images = product?.productImage
-    ? [product.productImage, ...(product.productDetailImg || [])]
-    : product?.productDetailImg || [];
+    ? [product.productImage, ...detailImages]
+    : detailImages;
 
   const [mainImg, setMainImg] = useState(product?.productImage);
   const [imgIdx, setImgIdx] = useState(0);

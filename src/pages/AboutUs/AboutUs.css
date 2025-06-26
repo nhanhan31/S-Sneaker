@@ -1,0 +1,444 @@
+.abu-about-us-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Container */
+.abu-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero Section */
+.abu-hero-section {
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  color: white;
+  padding: 80px 0;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.abu-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.abu-hero-title {
+  font-size: 4rem !important;
+  font-weight: 900 !important;
+  margin-bottom: 16px !important;
+  color: white !important;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.abu-hero-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #cccccc;
+  letter-spacing: 1px;
+}
+
+.abu-hero-slogan {
+  font-size: 1.5rem !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+  font-style: italic;
+  margin-bottom: 0 !important;
+}
+
+.abu-hero-img-placeholder {
+  width: 100%;
+  height: 300px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.abu-hero-img-placeholder:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.02);
+}
+
+.abu-sneaker-silhouette {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+/* Section Styling */
+.abu-opening-section,
+.abu-business-model-section,
+.abu-quality-section {
+  padding: 80px 0;
+  background: white;
+}
+
+.abu-mission-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+.abu-cta-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  color: white;
+  text-align: center;
+}
+
+/* Section Titles */
+.abu-section-title {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 32px !important;
+  color: #000000 !important;
+  text-align: left;
+}
+
+.abu-section-title.abu-text-center {
+  text-align: center !important;
+}
+
+.abu-cta-section .abu-section-title {
+  color: white !important;
+}
+
+/* Text Highlights */
+.abu-highlight {
+  background: #000000 !important;
+  color: white !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* Opening Section */
+.abu-opening-text {
+  padding-right: 20px;
+}
+
+.abu-opening-paragraph {
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  margin-bottom: 20px !important;
+  color: #333333 !important;
+}
+
+.abu-team-img-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cccccc;
+  transition: all 0.3s ease;
+}
+
+.abu-team-img-placeholder:hover {
+  background: #f0f0f0;
+  border-color: #999999;
+}
+
+.abu-team-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.abu-team-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #666666;
+}
+
+/* Mission Cards */
+.abu-mission-card {
+  text-align: center;
+  padding: 32px 24px;
+  border-radius: 16px;
+  border: 1px solid #e8e9ea;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  background: white;
+}
+
+.abu-mission-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  border-color: #000000;
+}
+
+.abu-mission-icon {
+  margin-bottom: 20px;
+}
+
+.abu-mission-title {
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+  color: #000000 !important;
+  line-height: 1.4 !important;
+}
+
+.abu-mission-description {
+  color: #666666 !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Business Model Section */
+.abu-business-paragraph {
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  margin-bottom: 20px !important;
+  color: #333333 !important;
+}
+
+.abu-future-plan {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #000000;
+  margin-top: 24px;
+}
+
+.abu-future-text {
+  font-size: 16px !important;
+  color: #000000 !important;
+}
+
+.abu-business-img-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cccccc;
+  transition: all 0.3s ease;
+}
+
+.abu-business-img-placeholder:hover {
+  background: #f0f0f0;
+  border-color: #999999;
+}
+
+.abu-business-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.abu-business-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #666666;
+}
+
+/* Quality Section */
+.abu-quality-paragraph {
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  margin-bottom: 24px !important;
+  color: #333333 !important;
+}
+
+.abu-quality-features {
+  margin: 24px 0;
+}
+
+.abu-quality-feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #333333;
+}
+
+.abu-quality-conclusion {
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  color: #333333 !important;
+  font-weight: 500 !important;
+  margin-top: 24px !important;
+}
+
+.abu-quality-img-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cccccc;
+  transition: all 0.3s ease;
+}
+
+.abu-quality-img-placeholder:hover {
+  background: #f0f0f0;
+  border-color: #999999;
+}
+
+.abu-quality-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.abu-quality-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #666666;
+}
+
+/* CTA Section */
+.abu-cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.abu-cta-title {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 24px !important;
+  color: white !important;
+}
+
+.abu-cta-subtitle {
+  font-size: 1.3rem !important;
+  margin-bottom: 40px !important;
+  color: #cccccc !important;
+}
+
+.abu-cta-button {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  height: 50px !important;
+  padding: 0 32px !important;
+  font-size: 1.1rem !important;
+}
+
+.abu-cta-button:hover {
+  background: #f0f0f0 !important;
+  border-color: #f0f0f0 !important;
+  color: #000000 !important;
+  transform: translateY(-2px);
+}
+
+.abu-cta-secondary-button {
+  background: transparent !important;
+  border: 2px solid white !important;
+  color: white !important;
+  font-weight: 600 !important;
+  height: 50px !important;
+  padding: 0 32px !important;
+  font-size: 1.1rem !important;
+}
+
+.abu-cta-secondary-button:hover {
+  background: white !important;
+  color: #000000 !important;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .abu-hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  
+  .abu-hero-title {
+    font-size: 3rem !important;
+  }
+  
+  .abu-section-title {
+    font-size: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .abu-hero-section {
+    padding: 60px 0;
+  }
+  
+  .abu-hero-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .abu-opening-section,
+  .abu-mission-section,
+  .abu-business-model-section,
+  .abu-quality-section,
+  .abu-cta-section {
+    padding: 60px 0;
+  }
+  
+  .abu-container {
+    padding: 0 16px;
+  }
+  
+  .abu-opening-text {
+    padding-right: 0;
+  }
+  
+  .abu-cta-title {
+    font-size: 2rem !important;
+  }
+  
+  .abu-cta-subtitle {
+    font-size: 1.1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .abu-hero-title {
+    font-size: 2rem !important;
+  }
+  
+  .abu-section-title {
+    font-size: 1.8rem !important;
+  }
+  
+  .abu-mission-card {
+    padding: 24px 16px;
+  }
+  
+  .abu-cta-button,
+  .abu-cta-secondary-button {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .abu-hero-img-placeholder,
+  .abu-team-img-placeholder,
+  .abu-business-img-placeholder,
+  .abu-quality-img-placeholder {
+    height: 200px;
+  }
+  
+  .abu-team-icon,
+  .abu-business-icon,
+  .abu-quality-icon {
+    font-size: 2rem;
+  }
+}

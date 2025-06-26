@@ -44,7 +44,7 @@ const AdminProductDetailPage = () => {
           type="default"
           icon={<EditOutlined />}
           onClick={() => setShowEditModal(true)}
-          style={{ background: "#111", borderColor: "#111" }}
+          style={{ background: "#111", borderColor: "#111", fontWeight: 600 }}
           ghost
         >
           Chỉnh sửa

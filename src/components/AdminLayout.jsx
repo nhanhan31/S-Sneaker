@@ -58,7 +58,7 @@ const AdminLayout = () => {
                             mobile-menu-button fixed z-40 rounded-lg shadow-lg transition-all duration-200
                             ${sidebarOpen 
                                 ? 'bg-gray-800 text-white' 
-                                : 'bg-white text-gray-700 hover:bg-gray-100'
+                                : 'bg-white text-gray-700 hover:bg-gray-100 opacity-60' 
                             }
                             ${isXS 
                                 ? 'top-2 left-2 p-2 text-xs' 

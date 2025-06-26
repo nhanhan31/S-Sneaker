@@ -250,6 +250,102 @@
   transition: box-shadow 0.3s, transform 0.3s;
 }
 
+/* Banner Carousel Styles */
+.banner-carousel-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.banner-carousel .ant-carousel {
+  width: 100%;
+}
+
+.banner-slide {
+  width: 100%;
+  aspect-ratio: 16/7; /* Widescreen banner ratio */
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Carousel dots styling */
+.banner-carousel .ant-carousel .ant-carousel-dots {
+  bottom: 20px;
+}
+
+.banner-carousel .ant-carousel .ant-carousel-dots li button {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+.banner-carousel .ant-carousel .ant-carousel-dots li.ant-carousel-dot-active button {
+  background: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .banner-slide {
+    aspect-ratio: 16/9; /* Slightly taller cho tablet */
+  }
+  
+  .banner-carousel-container {
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-slide {
+    aspect-ratio: 16/9; /* More square cho mobile */
+  }
+  
+  .banner-carousel-container {
+    margin-bottom: 24px;
+  }
+  
+  .banner-carousel .ant-carousel .ant-carousel-dots {
+    bottom: 12px;
+  }
+  
+  .banner-carousel .ant-carousel .ant-carousel-dots li button {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-slide {
+    aspect-ratio: 4/3; /* Almost square cho small mobile */
+  }
+  
+  .banner-carousel-container {
+    margin-bottom: 20px;
+  }
+}
+
+/* Ensure images don't exceed container */
+.banner-carousel .ant-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.banner-carousel .ant-image-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* Responsive */
 @media (min-width: 769px) and (max-width: 1024px) {
   /* Tablet styles */

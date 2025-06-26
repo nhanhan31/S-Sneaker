@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Row, Col, Typography, Carousel, Spin } from 'antd';
+import { Button, Card, Row, Col, Typography, Carousel, Spin, Image } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import './Homepage.css';
@@ -28,6 +28,41 @@ const Homepage = () => {
       <div className="top-banner">
          Miễn phí vận chuyển toàn quốc cho đơn hàng từ 1,000,000₫! 
       </div>
+      
+      {/* Banner Carousel - Fixed size */}
+      <div className="banner-carousel-container">
+        <Carousel 
+          autoplay={{ dotDuration: true }} 
+          autoplaySpeed={3000}
+          className="banner-carousel"
+        >
+          <div className="banner-slide">
+            <Image 
+              src='/assets/home-banner-1.png' 
+              alt="Banner 1"
+              preview={false}
+              className="banner-image"
+            />
+          </div>
+          <div className="banner-slide">
+            <Image 
+              src='/assets/home-banner-2.png' 
+              alt="Banner 2"
+              preview={false}
+              className="banner-image"
+            />
+          </div>
+          <div className="banner-slide">
+            <Image 
+              src='/assets/home-banner-3.png' 
+              alt="Banner 3"
+              preview={false}
+              className="banner-image"
+            />
+          </div>
+        </Carousel>
+      </div>
+
       {/* Hero Section */}
       <Row
         gutter={32}
@@ -69,7 +104,7 @@ const Homepage = () => {
             >
               {newArrivals.map((item) => (
                 <div key={item.productId} className="carousel-slide">
-                  <img
+                  <Image
                     src={item.productImage}
                     alt={item.productName}
                     className="carousel-image"

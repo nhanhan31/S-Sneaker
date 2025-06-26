@@ -153,6 +153,12 @@ const MainLayout = () => {
       onClick={() => setDrawerVisible(false)}
     >
       <Menu.Item
+        key="3"
+        onClick={() => navigate('/about')}
+      >
+        Về chúng tôi
+      </Menu.Item>
+      <Menu.Item
         key="1"
         onClick={() => navigate('/product', { state: { type: 'men' } })}
       >
@@ -163,12 +169,6 @@ const MainLayout = () => {
         onClick={() => navigate('/product', { state: { type: 'women' } })}
       >
         Nữ
-      </Menu.Item>
-      <Menu.Item
-        key="3"
-        onClick={() => navigate('/product', { state: { type: 'kid' } })}
-      >
-        Trẻ em
       </Menu.Item>
       <Menu.Item
         key="4"
@@ -182,6 +182,7 @@ const MainLayout = () => {
       >
         Tất cả sản phẩm
       </Menu.Item>
+      
     </Menu>
   );
 
@@ -328,7 +329,7 @@ const MainLayout = () => {
         </div>
 
         {/* Desktop Navigation Menu */}
-        {!isMobile && location.pathname !== "/user" && (
+        {!isMobile && !location.pathname.startsWith("/user") && (
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <Menu
               mode="horizontal"
@@ -343,6 +344,12 @@ const MainLayout = () => {
               }}
             >
               <Menu.Item
+                key="3"
+                onClick={() => navigate('/about')}
+              >
+                Về chúng tôi
+              </Menu.Item>
+              <Menu.Item
                 key="1"
                 onClick={() => navigate('/product', { state: { type: 'men' } })}
               >
@@ -353,12 +360,6 @@ const MainLayout = () => {
                 onClick={() => navigate('/product', { state: { type: 'women' } })}
               >
                 Nữ
-              </Menu.Item>
-              <Menu.Item
-                key="3"
-                onClick={() => navigate('/product', { state: { type: 'kid' } })}
-              >
-                Trẻ em
               </Menu.Item>
               <Menu.Item
                 key="4"
@@ -437,12 +438,12 @@ const MainLayout = () => {
         <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
         <BotpressChat />
       </Content>
-      
+
       <Footer
         className="footer"
         style={{
           background: '#fff',
-          padding: isMobile ? '16px 12px' : '0px 30px 16px 30px',
+          padding: isMobile ? '16px 12px' : '0px 150px 16px 150px',
           minHeight: isMobile ? 'auto' : 120
         }}
       >
@@ -460,7 +461,7 @@ const MainLayout = () => {
             gap: isMobile ? 20 : 40,
             flexDirection: isMobile ? 'column' : 'row'
           }}>
-            <div style={{ flex: 2, minWidth: isMobile ? 'auto' : 260 }}>
+            <div style={{ flex: 1, minWidth: isMobile ? 'auto' : 260 }}>
               <div style={{
                 fontWeight: 'bold',
                 fontSize: isMobile ? 24 : 32,
@@ -484,16 +485,28 @@ const MainLayout = () => {
                 {' '}nhiều điều hơn lời nói, đó là lý do tại sao chúng tôi đã thành thạo nghệ thuật làm giày tốt.
               </div>
             </div>
-            <iframe
-              title="Google Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.832168710479!2d106.75852837601306!3d10.824152558309564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175265228983c73%3A0x7c5405782cb50a3a!2zNjcgxJAuIE5hbSBIb8OgLCBQaMaw4bubYyBMb25nIEEsIFRo4bunIMSQ4bupYywgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1750864445273!5m2!1svi!2s"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+
+            {/* Google Map - Square Shape */}
+            <div style={{
+              width: isMobile ? '100%' : '300px',
+              height: isMobile ? '250px' : '300px',
+              borderRadius: 12,
+              overflow: 'hidden',
+              flexShrink: 0
+            }}>
+              <iframe
+                title="Google Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.832168710479!2d106.75852837601306!3d10.824152558309564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175265228983c73%3A0x7c5405782cb50a3a!2zNjcgxJAuIE5hbSBIb8OgLCBQaMaw4bubYyBMb25nIEEsIFRo4bunIMSQ4bupYywgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1750864445273!5m2!1svi!2s"
+                style={{
+                  border: 0,
+                  width: '100%',
+                  height: '100%'
+                }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
 
           {/* Social + Support + Copyright */}
@@ -543,31 +556,27 @@ const MainLayout = () => {
                   padding: '4px 7px',
                   margin: '0 3px',
                   fontSize: isMobile ? 14 : 16,
-                  color: '#1877f3'
+                  color: '#4267B2'
                 }}>
                   <FacebookFilled />
                 </span>
               </span>
             </div>
-
-
             <div style={{
               color: '#222',
               fontSize: isMobile ? 13 : 14,
-              textAlign: 'center',
-              order: isMobile ? 1 : 2
+              textAlign: isMobile ? 'center' : 'right',
+              order: isMobile ? 3 : 2
             }}>
-              Đường dây hỗ trợ: <b>+84 123 456 789</b>
+              Hỗ trợ khách hàng:  0346522836
             </div>
-
             <div style={{
-              color: '#222',
+              color: '#999',
               fontSize: isMobile ? 12 : 13,
               textAlign: isMobile ? 'center' : 'right',
-              minWidth: isMobile ? 'auto' : 180,
-              order: isMobile ? 3 : 3
+              order: isMobile ? 1 : 2
             }}>
-              Copyright&nbsp;2025<sup>©</sup> S-Sneaker
+              © 2025 S-SNEAKER
             </div>
           </div>
         </div>
