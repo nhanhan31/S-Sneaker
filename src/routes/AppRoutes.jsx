@@ -20,6 +20,7 @@ import ShippingStatus from '../pages/Userpage/ShippingStatus';
 import AdminProductPage from '../pages/AdminPage/AdminProductPage';
 import AdminProductDetailPage from '../pages/AdminPage/AdminProductDetailPage';
 import AboutUs from '../pages/AboutUs/AboutUs';
+import BlogPage from '../pages/BlogPage/BlogPage';
 
 const AppRoutes = () => (
   <Routes>
@@ -29,6 +30,8 @@ const AppRoutes = () => (
       <Route path="/product" element={<Productpage />} />
       <Route path="/detail/:id" element={<ProductDetailpage />} />
       <Route path="/about" element={<AboutUs />} />
+      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog/:slug" element={<BlogPage />} />
       <Route
         path="cart"
         element={

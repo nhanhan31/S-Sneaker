@@ -159,6 +159,12 @@ const MainLayout = () => {
         Về chúng tôi
       </Menu.Item>
       <Menu.Item
+        key="6"
+        onClick={() => navigate('/blog')}
+      >
+        Blog
+      </Menu.Item>
+      <Menu.Item
         key="1"
         onClick={() => navigate('/product', { state: { type: 'men' } })}
       >
@@ -350,6 +356,12 @@ const MainLayout = () => {
                 Về chúng tôi
               </Menu.Item>
               <Menu.Item
+                key="6"
+                onClick={() => navigate('/blog')}
+              >
+                Blog
+              </Menu.Item>
+              <Menu.Item
                 key="1"
                 onClick={() => navigate('/product', { state: { type: 'men' } })}
               >
@@ -435,15 +447,15 @@ const MainLayout = () => {
 
       <Content style={{ background: '#fff' }}>
         <Outlet />
-        <Divider style={{ margin: '0 0 40px 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
+        <Divider style={{ margin: '0 0 0 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
         <BotpressChat />
       </Content>
 
       <Footer
         className="footer"
         style={{
-          background: '#fff',
-          padding: isMobile ? '16px 12px' : '0px 150px 16px 150px',
+          background: 'linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%)',
+          padding: isMobile ? '16px 12px' : '40px 150px 16px 150px',
           minHeight: isMobile ? 'auto' : 120
         }}
       >
