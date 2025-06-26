@@ -4,12 +4,19 @@ import { HomeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utils/authApi";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
+import "../Auth/AuthResponsive.css";
 
 const Loginpage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [screenSize, setScreenSize] = useState({
+    isMobile: false,
+    isTablet: false,
+    isDesktop: true,
+    width: 1200
+  });
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -51,6 +58,22 @@ const Loginpage = () => {
       setEmail(savedEmail);
       setRemember(true);
     }
+
+    // Handle responsive với nhiều breakpoints
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setScreenSize({
+        isMobile: width <= 768,
+        isTablet: width > 768 && width <= 1024,
+        isDesktop: width > 1024,
+        width: width
+      });
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
@@ -63,7 +86,9 @@ const Loginpage = () => {
         alignItems: "center",
         justifyContent: "flex-start",
         position: "relative",
-        fontFamily: "Inter, Arial, sans-serif"
+        fontFamily: "Inter, Arial, sans-serif",
+        padding: screenSize.isMobile ? "10px" : "20px",
+        overflow: screenSize.isMobile ? "auto" : "hidden"
       }}
     >
       {/* Home Button */}
@@ -73,13 +98,13 @@ const Loginpage = () => {
         onClick={() => navigate("/")}
         style={{
           position: "absolute",
-          top: 20,
-          left: 20,
+          top: screenSize.isMobile ? 10 : 20,
+          left: screenSize.isMobile ? 10 : 20,
           zIndex: 10,
           color: "#fff",
-          fontSize: 16,
-          height: 40,
-          width: 40,
+          fontSize: screenSize.isMobile ? 14 : 16,
+          height: screenSize.isMobile ? 36 : 40,
+          width: screenSize.isMobile ? 36 : 40,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -102,20 +127,36 @@ const Loginpage = () => {
       <div
         style={{
           position: "absolute",
-          left: 80,
-          top: "40%",
+          left: screenSize.isMobile ? "20px" : screenSize.isTablet ? "40px" : "80px",
+          top: screenSize.isMobile ? "10%" : screenSize.isTablet ? "30%" : "40%",
           color: "#fff",
           zIndex: 2,
-          maxWidth: 400,
+          maxWidth: screenSize.isMobile ? "calc(100% - 40px)" : screenSize.isTablet ? "300px" : "400px",
+          display: screenSize.isMobile ? "none" : "block"
         }}
       >
-        <div style={{ fontSize: 48, fontWeight: 700, letterSpacing: 2, marginBottom: 24, fontFamily: "Inter, Arial, sans-serif" }}>
+        <div style={{ 
+          fontSize: screenSize.isTablet ? 36 : 48, 
+          fontWeight: 700, 
+          letterSpacing: 2, 
+          marginBottom: 24, 
+          fontFamily: "Inter, Arial, sans-serif" 
+        }}>
           S-SNEAKER
         </div>
-        <div style={{ fontSize: 24, fontWeight: 500, marginBottom: 16 }}>
+        <div style={{ 
+          fontSize: screenSize.isTablet ? 20 : 24, 
+          fontWeight: 500, 
+          marginBottom: 16 
+        }}>
           Xây dựng tương lai...
         </div>
-        <div style={{ fontSize: 15, color: "#e0e0e0", marginBottom: 32, lineHeight: 1.6 }}>
+        <div style={{ 
+          fontSize: screenSize.isTablet ? 14 : 15, 
+          color: "#e0e0e0", 
+          marginBottom: 32, 
+          lineHeight: 1.6 
+        }}>
           Chào mừng bạn đến với S-SNEAKER, nơi cung cấp những đôi giày chất lượng cao và phong cách thời trang hiện đại.
         </div>
         <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
@@ -129,39 +170,49 @@ const Loginpage = () => {
       <div
         style={{
           background: "#fff",
-          borderRadius: 8,
+          borderRadius: screenSize.isMobile ? 12 : 8,
           boxShadow: "0 4px 32px rgba(0,0,0,0.18)",
-          padding: "32px 40px 40px 40px",
-          width: 420,
+          padding: screenSize.isMobile ? "20px 16px 24px 16px" : screenSize.isTablet ? "28px 32px 32px 32px" : "32px 40px 40px 40px",
+          width: screenSize.isMobile ? "calc(100% - 20px)" : screenSize.isTablet ? "380px" : "420px",
+          maxWidth: screenSize.isMobile ? "360px" : screenSize.isTablet ? "380px" : "420px",
           zIndex: 3,
-          marginLeft: "auto",
-          marginRight: "8vw",
-          minHeight: 500,
+          marginLeft: screenSize.isMobile ? "auto" : "auto",
+          marginRight: screenSize.isMobile ? "auto" : screenSize.isTablet ? "40px" : "8vw",
+          marginTop: screenSize.isMobile ? "60px" : "auto",
+          marginBottom: screenSize.isMobile ? "20px" : "auto",
+          minHeight: screenSize.isMobile ? "auto" : screenSize.isTablet ? "460px" : "500px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center"
         }}
       >
-        <div style={{ fontWeight: 600, color: "#888", marginBottom: 8, fontSize: 13 }}>CHÀO MỪNG TRỞ LẠI</div>
-        <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 18 }}>Đăng nhập vào tài khoản</div>
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 4 }}>Email</div>
+        <div style={{ fontWeight: 600, color: "#888", marginBottom: 8, fontSize: screenSize.isMobile ? 12 : 13 }}>CHÀO MỪNG TRỞ LẠI</div>
+        <div style={{ fontWeight: 700, fontSize: screenSize.isMobile ? 18 : 20, marginBottom: screenSize.isMobile ? 16 : 18 }}>Đăng nhập vào tài khoản</div>
+        <div style={{ marginBottom: screenSize.isMobile ? 12 : 14 }}>
+          <div style={{ fontWeight: 500, fontSize: screenSize.isMobile ? 13 : 14, marginBottom: 4 }}>Email</div>
           <Input
             placeholder="Nhập email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            size="large"
-            style={{ marginBottom: 12 }}
+            size={screenSize.isMobile ? "middle" : "large"}
+            style={{ marginBottom: screenSize.isMobile ? 10 : 12 }}
           />
-          <div style={{ fontWeight: 500, fontSize: 14, marginBottom: 4 }}>Mật khẩu</div>
+          <div style={{ fontWeight: 500, fontSize: screenSize.isMobile ? 13 : 14, marginBottom: 4 }}>Mật khẩu</div>
           <Input.Password
             placeholder="Nhập mật khẩu"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            size="large"
+            size={screenSize.isMobile ? "middle" : "large"}
           />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center", 
+          marginBottom: screenSize.isMobile ? 14 : 18,
+          flexDirection: screenSize.isMobile ? "column" : "row",
+          gap: screenSize.isMobile ? 8 : 0
+        }}>
           <ConfigProvider
             theme={{
               token: {
@@ -171,41 +222,46 @@ const Loginpage = () => {
               },
             }}
           >
-            <Checkbox checked={remember} onChange={e => setRemember(e.target.checked)} style={{ fontSize: 13 }}>
+            <Checkbox checked={remember} onChange={e => setRemember(e.target.checked)} style={{ fontSize: screenSize.isMobile ? 12 : 13 }}>
               Ghi nhớ đăng nhập
             </Checkbox>
           </ConfigProvider>
 
-          {/* <a href="#" style={{ color: "#888", fontSize: 13 }}>Quên mật khẩu?</a> */}
+          {/* <a href="#" style={{ color: "#888", fontSize: screenSize.isMobile ? 12 : 13 }}>Quên mật khẩu?</a> */}
         </div>
         <Button
           type="primary"
           block
-          size="large"
+          size={screenSize.isMobile ? "middle" : "large"}
           loading={loading}
           style={{
             background: "#111",
             borderColor: "#111",
             fontWeight: 600,
-            marginBottom: 18,
+            marginBottom: screenSize.isMobile ? 14 : 18,
             borderRadius: 6,
-            height: 40,
+            height: screenSize.isMobile ? 36 : 40,
             transition: "all 0.2s ease",
             border: "1px solid #dadce0",
+            fontSize: screenSize.isMobile ? 14 : 16
           }}
           onClick={handleLogin}
         >
           TIẾP TỤC
         </Button>
-        <div style={{ textAlign: "center", color: "#888", margin: "2px 0 18px 0", fontSize: 13 }}>Hoặc</div>
+        <div style={{ textAlign: "center", color: "#888", margin: "2px 0 14px 0", fontSize: screenSize.isMobile ? 12 : 13 }}>Hoặc</div>
         
         <GoogleLoginButton 
           loading={loading}
           setLoading={setLoading}
-          style={{ marginBottom: 10 }}
+          style={{ 
+            marginBottom: screenSize.isMobile ? 12 : 10,
+            height: screenSize.isMobile ? 36 : 38,
+            fontSize: screenSize.isMobile ? 14 : 16
+          }}
         />
 
-        <div style={{ textAlign: "center", marginTop: 18, color: "#888", fontSize: 13 }}>
+        <div style={{ textAlign: "center", marginTop: screenSize.isMobile ? 14 : 18, color: "#888", fontSize: screenSize.isMobile ? 12 : 13 }}>
           Người dùng mới? <a href="/register" style={{ fontWeight: 600, color: "#111" }}>ĐĂNG KÝ TẠI ĐÂY</a>
         </div>
       </div>
