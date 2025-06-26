@@ -129,7 +129,14 @@ const Favoritepage = () => {
 
     return (
         <div style={{ padding: 32, background: "#fff", minHeight: "100vh" }}>
-            <h2 style={{ fontWeight: 700, marginBottom: 32 }}>Sản phẩm yêu thích</h2>
+            <h3 style={{
+                fontWeight: 600,
+                fontSize: 24,
+                marginBottom: 18,
+                textAlign: 'left'
+            }}>
+                Sản phẩm yêu thích
+            </h3>
             {favoriteShoes.length > 0 && (
                 <div style={{ marginBottom: 10 }}>
                     <ConfigProvider

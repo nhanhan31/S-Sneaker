@@ -189,7 +189,7 @@ const MainLayout = () => {
       >
         Tất cả sản phẩm
       </Menu.Item>
-      
+
     </Menu>
   );
 
@@ -446,12 +446,12 @@ const MainLayout = () => {
         </div>
       </Header>
 
-      <Content style={{ background: '#fff' }}>
+      <Content style={{ background: 'linear-gradient(90deg, rgb(248, 250, 252) 60%, rgb(227, 227, 227) 100%)' }}>
         <Outlet />
-        <Divider style={{ margin: '0 0 0 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
+
         <BotpressChat />
       </Content>
-
+      <Divider style={{ margin: '0 0 0 0', borderColor: '#e8e8e8', borderWidth: '1px' }} />
       <Footer
         className="footer"
         style={{
@@ -505,7 +505,8 @@ const MainLayout = () => {
               height: isMobile ? '250px' : '300px',
               borderRadius: 12,
               overflow: 'hidden',
-              flexShrink: 0
+              flexShrink: 0,
+              border: '3px solid rgb(190, 190, 190)'
             }}>
               <iframe
                 title="Google Map"
@@ -599,7 +600,7 @@ const MainLayout = () => {
       <FloatButton.Group
         trigger="click"
         type="primary"
-        style={{ 
+        style={{
           zIndex: 1001
         }}
         icon={<CustomerServiceOutlined />}
@@ -607,7 +608,7 @@ const MainLayout = () => {
         description="Hỗ trợ"
       >
         <FloatButton
-          icon={<PhoneOutlined style={{fontSize: 24}}/>}
+          icon={<PhoneOutlined style={{ fontSize: 24 }} />}
           tooltip="Gọi ngay: 0346522836"
           onClick={() => {
             if (isMobile) {
@@ -622,12 +623,12 @@ const MainLayout = () => {
           }}
         />
         <FloatButton
-          icon={<FacebookFilled style={{fontSize: 24}}/>}
+          icon={<FacebookFilled style={{ fontSize: 24 }} />}
           tooltip="Facebook"
           onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')}
         />
         <FloatButton
-          icon={<SiZalo style={{fontSize: 24}}/>}
+          icon={<SiZalo style={{ fontSize: 24 }} />}
           tooltip="Chat Zalo"
           onClick={() => window.open('https://zalo.me/0346522836', '_blank')}
         />
