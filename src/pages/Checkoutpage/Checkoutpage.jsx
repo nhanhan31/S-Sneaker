@@ -303,7 +303,7 @@ const Checkoutpage = () => {
     }, [location]);
 
     return (
-        <div style={{ display: "flex", gap: 32, padding: 32, background: "#fff", minHeight: "70vh" }}>
+        <div style={{ display: "flex", gap: 32, padding: 32, background: "#fff", minHeight: "100vh" }}>
             {/* Left: Form */}
             <div style={{ flex: 2, maxWidth: 800 }}>
                 <Spin spinning={formLoading}>

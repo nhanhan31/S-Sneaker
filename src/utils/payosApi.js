@@ -8,8 +8,9 @@ export const payosReturn = async ({ status, orderCode, token }) => {
       headers.Authorization = `Bearer ${token}`;
     }
     
-    const res = await axios.get(`${BASE_URL}/api/payos/return`, {
-      params: { status, orderCode },
+    // URL format: /api/payos/return/{status}/{orderCode}?status={status}&orderCode={orderCode}
+    const res = await axios.get(`${BASE_URL}/api/payos/return/${status}/${orderCode}`, {
+      params: { status, orderCode }, // Query parameters
       headers
     });
     return { ok: true, data: res.data };

@@ -8,6 +8,7 @@ import Cartpage from '../pages/Cartpage/Cartpage';
 import Checkoutpage from '../pages/Checkoutpage/Checkoutpage';
 import Favoritepage from '../pages/Favoritepage/Favoritepage';
 import Loginpage from '../pages/Loginpage/Loginpage';
+import Registerpage from '../pages/Registerpage/Registerpage';
 import PrivateRoute from './PrivateRoute';
 import Userpage from '../pages/Userpage/Userpage';
 import UserContent from '../pages/Userpage/UserContent';
@@ -25,6 +26,7 @@ import BlogPage from '../pages/BlogPage/BlogPage';
 const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<Loginpage />} />
+    <Route path="/register" element={<Registerpage />} />
     <Route path="/" element={<MainLayout />}>
       <Route index element={<Homepage />} />
       <Route path="/product" element={<Productpage />} />

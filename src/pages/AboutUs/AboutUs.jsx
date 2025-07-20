@@ -51,7 +51,7 @@ const AboutUs = () => {
             </Paragraph>
           </div>
           <div className="abu-sneaker-silhouette">
-            <Image src='/assets/S-Sneaker-logo-white.png' />
+            <Image preview={false}  src='/assets/S-Sneaker-logo-white.png' />
           </div>
         </div>
       </section>

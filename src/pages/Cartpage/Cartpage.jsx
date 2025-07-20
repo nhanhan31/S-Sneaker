@@ -189,7 +189,7 @@ const Cartpage = () => {
       gap: isMobile ? 24 : 48,
       alignItems: 'flex-start',
       padding: isMobile ? '16px 12px 0 12px' : isTablet ? '24px 16px 0 16px' : '32px 24px 0 24px',
-      minHeight: '70vh',
+      minHeight: '100vh',
       background: '#fff'
     }}>
       {/* Cart List */}

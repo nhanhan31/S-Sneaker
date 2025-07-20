@@ -1,0 +1,175 @@
+/* Auth Pages Responsive Styles */
+
+/* Mobile First Approach */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 5px !important;
+  }
+  
+  .auth-form {
+    width: calc(100% - 10px) !important;
+    max-width: 340px !important;
+    padding: 16px 14px 20px 14px !important;
+    margin-top: 50px !important;
+  }
+  
+  .auth-title {
+    font-size: 16px !important;
+    margin-bottom: 14px !important;
+  }
+  
+  .auth-subtitle {
+    font-size: 11px !important;
+  }
+  
+  .auth-input {
+    font-size: 14px !important;
+  }
+  
+  .auth-button {
+    height: 34px !important;
+    font-size: 13px !important;
+  }
+  
+  .home-button {
+    top: 8px !important;
+    left: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Small Mobile */
+@media (min-width: 481px) and (max-width: 576px) {
+  .auth-form {
+    width: calc(100% - 20px) !important;
+    max-width: 360px !important;
+    padding: 18px 16px 22px 16px !important;
+  }
+  
+  .auth-title {
+    font-size: 17px !important;
+  }
+  
+  .auth-button {
+    height: 35px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Large Mobile / Small Tablet */
+@media (min-width: 577px) and (max-width: 768px) {
+  .auth-form {
+    width: calc(100% - 40px) !important;
+    max-width: 380px !important;
+    padding: 20px 18px 24px 18px !important;
+  }
+  
+  .auth-title {
+    font-size: 18px !important;
+  }
+  
+  .auth-button {
+    height: 36px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .auth-form {
+    width: 380px !important;
+    padding: 28px 32px 32px 32px !important;
+    margin-right: 40px !important;
+  }
+  
+  .auth-left-info {
+    left: 40px !important;
+    top: 30% !important;
+    max-width: 300px !important;
+  }
+  
+  .auth-left-title {
+    font-size: 36px !important;
+  }
+  
+  .auth-left-subtitle {
+    font-size: 20px !important;
+  }
+  
+  .auth-left-description {
+    font-size: 14px !important;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .auth-form {
+    width: 420px !important;
+    padding: 32px 40px 40px 40px !important;
+    margin-right: 8vw !important;
+  }
+  
+  .auth-left-info {
+    left: 80px !important;
+    top: 40% !important;
+    max-width: 400px !important;
+  }
+}
+
+/* Ultra Wide */
+@media (min-width: 1440px) {
+  .auth-left-info {
+    left: 120px !important;
+    max-width: 450px !important;
+  }
+  
+  .auth-form {
+    margin-right: 10vw !important;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .auth-container {
+    align-items: flex-start !important;
+    padding-top: 20px !important;
+  }
+  
+  .auth-form {
+    margin-top: 10px !important;
+    min-height: auto !important;
+  }
+  
+  .auth-left-info {
+    display: none !important;
+  }
+}
+
+/* Touch devices optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .auth-button {
+    min-height: 44px !important;
+  }
+  
+  .home-button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .auth-form {
+    box-shadow: 0 8px 64px rgba(0,0,0,0.12) !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .auth-form {
+    background: #1f1f1f !important;
+    color: #fff !important;
+  }
+}

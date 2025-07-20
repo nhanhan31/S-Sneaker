@@ -4,7 +4,7 @@ import { HeartFilled, HeartOutlined, LeftOutlined, RightOutlined, DownOutlined }
 import { useNavigate, useParams } from "react-router-dom";
 import { addProductToFavorite, deleteFavoriteByProductId } from "../../utils/favoriteApi";
 import { addProductToCart } from "../../utils/cartApi";
-import { fetchProductById } from "../../utils/productApi"; // Thêm dòng này
+import { fetchProductByIdWithQuantity } from "../../utils/productApi"; // Thêm dòng này
 import { parseImageArray } from '../../utils/imageUtils';
 import "./ProductDetailpage.css";
 
@@ -25,7 +25,7 @@ const ProductDetailpage = () => {
   // Lấy chi tiết sản phẩm từ API
   useEffect(() => {
     setLoading(true);
-    fetchProductById(id).then((data) => {
+    fetchProductByIdWithQuantity(id).then((data) => {
       setProduct(data);
       setLoading(false);
     });
@@ -51,6 +51,11 @@ const ProductDetailpage = () => {
     setImgIdx(0);
     setIsFavorite(product && favorites.includes(product.productId));
   }, [product?.productId, favorites]);
+
+  // Reset quantity khi đổi size
+  useEffect(() => {
+    setQuantity(1);
+  }, [selectedSize?.sizeId]);
 
   // Tự động chuyển ảnh mỗi 3 giây nếu có nhiều hơn 1 ảnh
   useEffect(() => {
@@ -116,6 +121,14 @@ const ProductDetailpage = () => {
       message.error("Vui lòng chọn size!");
       return;
     }
+    if (selectedSizeQuantity === 0) {
+      message.error("Size này đã hết hàng!");
+      return;
+    }
+    if (quantity > selectedSizeQuantity) {
+      message.error(`Chỉ còn ${selectedSizeQuantity} sản phẩm cho size này!`);
+      return;
+    }
     const sizeId = selectedSize.sizeId;
 
     const result = await addProductToCart({
@@ -146,13 +159,18 @@ const ProductDetailpage = () => {
   const sizeOptions = Array.isArray(product?.batchDetails)
     ? product.batchDetails.map(b => ({
         sizeNumber: Number(b.sizes.sizeNumber),
-        sizeId: b.sizeId
+        sizeId: b.sizeId,
+        quantity: b.quantity || 0 // Đảm bảo luôn có giá trị quantity
       }))
     : [];
 
   const sizes = Array.isArray(product?.batchDetails)
     ? product.batchDetails.map(b => Number(b.sizes.sizeNumber))
     : [];
+
+  // Lấy số lượng còn lại của size được chọn
+  const selectedSizeQuantity = selectedSize ? (selectedSize.quantity || 0) : 0;
+  const isOutOfStock = selectedSizeQuantity === 0;
 
   const handlePrev = () => {
     if (!images.length) return;
@@ -386,65 +404,130 @@ const ProductDetailpage = () => {
           </div>
           {descOpen && (
             <div style={{ color: '#444', marginBottom: 16, fontSize: 15, lineHeight: 1.7 }}>
-              {product.description}
+              {product.description
+                .split('✔️')
+                .map((part, index) => (
+                  index === 0 ? part : (
+                    <span key={index}>
+                      <br />- {part}
+                    </span>
+                  )
+                ))
+              }
             </div>
           )}
         </div>
         <div>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Chọn kích cỡ</div>
+          <div style={{ fontWeight: 600, marginBottom: 8 }}>
+            Chọn kích cỡ
+            {selectedSize && (
+              <span style={{ 
+                marginLeft: 8, 
+                fontSize: 14, 
+                color:'rgb(136, 136, 136)',
+                fontWeight: 400 
+              }}>
+                ({selectedSizeQuantity} sản phẩm còn lại)
+              </span>
+            )}
+          </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {Array.from({ length: 46 - 35 + 1 }, (_, i) => i + 35).map(size => {
               const found = sizeOptions.find(opt => opt.sizeNumber === size);
+              const isOutOfStockForSize = found && found.quantity === 0;
               return (
                 <Button
                   key={size}
                   size="large"
-                  disabled={!found}
+                  disabled={!found || isOutOfStockForSize}
                   style={{
                     borderRadius: 6,
                     minWidth: 36,
                     background: selectedSize?.sizeNumber === size
-                      ? '#222'
+                      ? isOutOfStockForSize
+                        ? '#ff4d4f'
+                        : '#222'
                       : found
-                        ? '#fff'
+                        ? isOutOfStockForSize
+                          ? '#fff2f0'
+                          : '#fff'
                         : '#fafbfc',
                     color: selectedSize?.sizeNumber === size
                       ? '#fff'
                       : found
-                        ? '#222'
+                        ? isOutOfStockForSize
+                          ? '#ff4d4f'
+                          : '#222'
                         : '#bbb',
                     border: selectedSize?.sizeNumber === size
-                      ? '1px solid #222'
-                      : '1px solid #e0e0e0',
+                      ? isOutOfStockForSize
+                        ? '1px solid #ff4d4f'
+                        : '1px solid #222'
+                      : isOutOfStockForSize
+                        ? '1px solid #ffccc7'
+                        : '1px solid #e0e0e0',
                     opacity: found ? 1 : 0.5,
                     fontWeight: 500,
                     transition: 'all 0.2s',
+                    position: 'relative',
                   }}
-                  onClick={() => found && setSelectedSize(found)}
+                  onClick={() => found && !isOutOfStockForSize && setSelectedSize(found)}
                 >
                   {size}
+                  {isOutOfStockForSize && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      fontSize: 10,
+                      color: '#ff4d4f',
+                      fontWeight: 400,
+                      marginTop: 8,
+                      whiteSpace: 'nowrap'
+                    }}>
+                      Hết
+                    </div>
+                  )}
                 </Button>
               );
             })}
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
-          <Button onClick={() => setQuantity(q => Math.max(1, q - 1))} style={{ minWidth: 36, fontSize: 18 }}>-</Button>
+          <Button 
+            onClick={() => setQuantity(q => Math.max(1, q - 1))} 
+            style={{ minWidth: 36, fontSize: 18 }}
+          >
+            -
+          </Button>
           <span style={{ minWidth: 24, textAlign: 'center', fontSize: 16 }}>{quantity}</span>
-          <Button onClick={() => setQuantity(q => q + 1)} style={{ minWidth: 36, fontSize: 18 }}>+</Button>
+          <Button 
+            onClick={() => setQuantity(q => selectedSizeQuantity > 0 ? Math.min(selectedSizeQuantity, q + 1) : q + 1)} 
+            disabled={selectedSizeQuantity > 0 && quantity >= selectedSizeQuantity}
+            style={{ minWidth: 36, fontSize: 18 }}
+          >
+            +
+          </Button>
           <Button
             type="primary"
+            disabled={isOutOfStock || !selectedSize}
             style={{
               marginLeft: 24,
-              background: '#111',
-              borderColor: '#111',
+              background: isOutOfStock || !selectedSize ? '#d9d9d9' : '#111',
+              borderColor: isOutOfStock || !selectedSize ? '#d9d9d9' : '#111',
+              color: isOutOfStock || !selectedSize ? '#fff' : '#fff',
               fontWeight: 600,
               minWidth: 120,
               height: 40
             }}
             onClick={() => handleAddToCart(product.productId, quantity)}
           >
-            Thêm vào giỏ
+            {!selectedSize 
+              ? 'Chọn size' 
+              : isOutOfStock 
+                ? 'Hết hàng' 
+                : 'Thêm vào giỏ'}
           </Button>
           <Button
             style={{

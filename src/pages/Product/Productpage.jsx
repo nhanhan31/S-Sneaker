@@ -8,6 +8,7 @@ import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { addProductToFavorite, deleteFavoriteByProductId } from "../../utils/favoriteApi";
 import { fetchAllProducts } from "../../utils/productApi"; // Sử dụng API
 import { payosReturn } from "../../utils/payosApi";
+import { deleteOrderByCode } from "../../utils/orderApi";
 
 const brands = ['Nike', 'Jordan', 'Adidas', 'Puma', 'Timberland'];
 const categories = ['Sneakers', 'Boots', 'Sandals', 'Loafers'];
@@ -194,14 +195,31 @@ const Productpage = () => {
             const status = params.get("status");
             const orderCode = params.get("orderCode");
             if (status && orderCode) {
-                payosReturn({ status, orderCode, token })
-                    .then(res => {
-                        message.info("Đã huỷ thanh toán");
-                    })
-                    .catch(() => {
-                        message.error("Không thể xử lý trạng thái thanh toán!");
-                    });
-                sessionStorage.removeItem("cart");
+                // Xử lý hủy thanh toán và xóa order
+                const handleCancelPayment = async () => {
+                    try {
+                        // Gọi API xử lý trạng thái thanh toán
+                        await payosReturn({ status, orderCode, token });
+                        
+                        // Gọi API xóa order
+                        const deleteResult = await deleteOrderByCode(orderCode);
+                        
+                        if (deleteResult.ok) {
+                            message.info("Đã hủy thanh toán và xóa đơn hàng");
+                        } else {
+                            message.warning("Đã hủy thanh toán nhưng không thể xóa đơn hàng");
+                        }
+                        
+                        sessionStorage.removeItem("cart");
+                        navigate("/");
+                        
+                    } catch (error) {
+                        console.error("Error handling payment cancel:", error);
+                        message.error("Không thể xử lý việc hủy thanh toán!");
+                    }
+                };
+                
+                handleCancelPayment();
             }
         }
         // Xử lý payment-success
@@ -213,14 +231,15 @@ const Productpage = () => {
                 payosReturn({ status, orderCode, token })
                     .then(res => {
                         message.success("Thanh toán thành công!");
+                        sessionStorage.removeItem("cart");
+                        navigate("/user/order");
                     })
                     .catch(() => {
                         message.error("Không thể xác nhận thanh toán!");
                     });
-                sessionStorage.removeItem("cart");
             }
         }
-    }, [location]);
+    }, [location, token, navigate]);
 
     return (
         <div style={{ background: 'linear-gradient(90deg, #f8fafc 60%, #e3e3e3 100%)', padding: '30px', minHeight: '100vh' }}>

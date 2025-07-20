@@ -26,6 +26,17 @@ export const fetchProductById = async (id) => {
   }
 };
 
+export const fetchProductByIdWithQuantity = async (id) => {
+  try {
+    // Gọi API lấy tất cả sản phẩm và filter theo id để có đầy đủ thông tin quantity
+    const allProducts = await fetchAllProducts();
+    const product = allProducts.find(p => p.productId === parseInt(id));
+    return product || null;
+  } catch {
+    return null;
+  }
+};
+
 export const createNewProduct = async (productData) => {
   try {
     const token = localStorage.getItem('token');
