@@ -556,7 +556,7 @@ const AdminUser = () => {
                                             <Button
                                                 danger={!selectedUser.isActive}
                                                 onClick={handleToggleActiveStatus}
-                                                style={{ marginTop: 12 }}
+                                                style={{ marginLeft: 8 }}
                                             >
                                                 {selectedUser.isActive ? 'Vô hiệu hóa' : 'Kích hoạt'}
                                             </Button>
