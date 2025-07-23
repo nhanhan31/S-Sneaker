@@ -126,7 +126,7 @@ const AdminOrder = () => {
                         <tr>
                             <th className="px-4 py-3 font-semibold">Mã đơn hàng</th>
                             <th className="px-4 py-3 font-semibold">Mã khách hàng</th>
-                            <th className="px-4 py-3 font-semibold">Shipping Status</th>
+                            <th className="px-4 py-3 font-semibold">Order Status</th>
                             <th className="px-4 py-3 font-semibold">Tổng tiền</th>
                             <th className="px-4 py-3 font-semibold">Mã vận đơn</th>
                             <th className="px-4 py-3 font-semibold">Mã giảm giá</th>
@@ -138,10 +138,10 @@ const AdminOrder = () => {
                         {currentOrders.map((order, idx) => (
                             <tr key={idx} className="hover:bg-gray-50">
                                 <td className="px-4 py-3 font-medium text-center" >{order.orderCode}</td>
-                                <td className="px-4 py-3 text-center">{order.userId}</td>
+                                <td className="px-4 py-3 text-center">SNEAKERCUSTOMER{order.userId}</td>
                                 <td className="px-4 py-3 text-center">
                                     <span className={`px-3 py-1 rounded-full font-semibold text-center ${shippingStatusColor(order.shippingStatus)}`}>
-                                        {order.shippingLabel}
+                                        {order.status}
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 font-mono text-center" >{order.totalPrice?.toLocaleString('vi-VN') || 'N/A'}</td>
