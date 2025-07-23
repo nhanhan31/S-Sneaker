@@ -56,6 +56,9 @@ const AdminOrder = () => {
                         };
                     })
                 );
+                // 🔽 Sắp xếp theo thời gian tạo mới nhất
+                const sortedOrders = ordersWithShipping.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setOrders(sortedOrders);
                 setOrders(ordersWithShipping);
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
