@@ -554,7 +554,6 @@ const AdminUser = () => {
                                         <div style={{ marginTop: 8, fontWeight: 600 }}>
                                             Trạng thái
                                             <Button
-                                                danger={!selectedUser.isActive}
                                                 onClick={handleToggleActiveStatus}
                                                 style={{ marginLeft: 8 }}
                                             >
