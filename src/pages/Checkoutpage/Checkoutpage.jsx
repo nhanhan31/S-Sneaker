@@ -206,7 +206,8 @@ const Checkoutpage = () => {
     const handleSaveInfo = (checked) => {
         if (checked) {
             Modal.confirm({
-                content: "Bạn có chắc muốn lưu thông tin giao hàng này cho lần sau?",
+                // Xóa dòng content đầu tiên
+                // content: "Bạn có chắc muốn lưu thông tin giao hàng này cho lần sau?",
                 icon: null,
                 centered: true,
                 width: 420,

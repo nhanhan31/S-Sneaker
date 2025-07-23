@@ -135,6 +135,30 @@ const AdminSideBar = ({ onClose, isMobile, isTablet, isXS, isNonDesktop }) => {
                 <div
                     className={`
                         cursor-pointer transition-all duration-200 mx-2 rounded-lg
+                        ${isActive('/admin/user') 
+                            ? 'bg-indigo-600 text-white shadow-lg' 
+                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        }
+                        ${isXS 
+                            ? 'px-3 py-2 mb-1' 
+                            : isMobile 
+                                ? 'px-4 py-3 mb-2' 
+                                : 'px-6 py-3 mb-1'
+                        }
+                    `}
+                    onClick={() => handleNavigation('/admin/user')}
+                >
+                    <div className="flex items-center">
+                        <Package className={`mr-3 ${isXS ? 'w-3 h-3' : isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
+                        <span className={`font-medium ${isXS ? 'text-xs' : isMobile ? 'text-sm' : 'text-base'}`}>
+                            Users
+                        </span>
+                    </div>
+                </div>
+
+                 <div
+                    className={`
+                        cursor-pointer transition-all duration-200 mx-2 rounded-lg
                         ${isActive('/admin/product') 
                             ? 'bg-indigo-600 text-white shadow-lg' 
                             : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'

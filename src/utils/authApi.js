@@ -98,5 +98,23 @@ export const register = async ({ firstName, lastName, email, password, phoneNumb
   }
 };
 
+// Thêm API verify email
+export const verifyEmail = async (token) => {
+  try {
+    const response = await apiClient.get("/api/verify-email", {
+      params: { token }
+    });
+    return { ok: true, data: response.data };
+  } catch (error) {
+    if (error.response) {
+      return { ok: false, data: error.response.data };
+    } else if (error.request) {
+      return { ok: false, data: { message: "Network error! Please check your connection." } };
+    } else {
+      return { ok: false, data: { message: "An unexpected error occurred!" } };
+    }
+  }
+};
+
 // Export axios instance để sử dụng cho các API khác
 export default apiClient;

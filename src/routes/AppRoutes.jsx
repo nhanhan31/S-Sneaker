@@ -22,10 +22,13 @@ import AdminProductPage from '../pages/AdminPage/AdminProductPage';
 import AdminProductDetailPage from '../pages/AdminPage/AdminProductDetailPage';
 import AboutUs from '../pages/AboutUs/AboutUs';
 import BlogPage from '../pages/BlogPage/BlogPage';
+import EmailVerification from '../pages/EmailVerification/EmailVerification';
+import AdminUser from '../pages/AdminPage/AdminUser';
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<Loginpage />} />
+    <Route path="/verify-email" element={<EmailVerification />} />
     <Route path="/register" element={<Registerpage />} />
     <Route path="/" element={<MainLayout />}>
       <Route index element={<Homepage />} />
@@ -100,6 +103,7 @@ const AppRoutes = () => (
       <Route path="order" element={<AdminOrder />} />
       <Route path="product" element={ <AdminProductPage/>} />
       <Route path="product/:id" element={<AdminProductDetailPage/>} />
+      <Route path="user" element={<AdminUser />} />
     </Route>
     <Route path="*" element={<div>404 Not Found</div>} />
   </Routes>
