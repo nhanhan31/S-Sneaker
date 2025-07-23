@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Select, Spin, message, Typography } from "antd";
 import { getProvinces, getDistricts, getWards } from "../../utils/ghnApi";
 import { updateUser } from "../../utils/userApi"; // Đảm bảo đã import
+import { BASE_URL } from "../../utils/url";
+import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../../utils/fireBaseConfig"; // Import auth và RecaptchaVerifier từ firebaseConfig
+
+
 
 const { Title } = Typography;
 
@@ -18,6 +22,11 @@ const EditInfo = () => {
   const [provinceId, setProvinceId] = useState(null);
   const [districtId, setDistrictId] = useState(null);
   const [wardCode, setWardCode] = useState(null);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState(null);
+
 
   // Load provinces, districts, wards theo user
   useEffect(() => {
@@ -108,8 +117,75 @@ const EditInfo = () => {
     setLoading(false);
   };
 
+  const sendOTP = async () => {
+    const phone = form.getFieldValue("phoneNumber");
+    if (!phone || !/^0\d{9}$/.test(phone)) {
+      return message.error("Số điện thoại không hợp lệ. Ví dụ: 0901234567");
+    }
+
+    try {
+      const fullPhone = "+84" + phone.slice(1); // Chuyển 0901234567 → +84901234567
+
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+          size: "invisible",
+          callback: () => { }
+        });
+      }
+
+      const confirmation = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
+      setConfirmationResult(confirmation);
+      setOtpSent(true);
+      message.success("Mã OTP đã được gửi!");
+    } catch (err) {
+      console.error(err);
+      message.error("Gửi OTP thất bại. Vui lòng thử lại.");
+    }
+  };
+
+
+
+  const verifyOTP = async () => {
+    if (!confirmationResult) return message.error("Vui lòng gửi mã OTP trước.");
+    if (!otpCode) return message.error("Vui lòng nhập mã OTP.");
+
+    try {
+      setVerifying(true);
+      const result = await confirmationResult.confirm(otpCode);
+      const user = result.user;
+
+      // 🔐 Lấy Firebase ID token để xác thực với backend
+      const idToken = await user.getIdToken();
+
+      // 📡 Gọi API backend
+      const res = await fetch(`${BASE_URL}/api/verify-phone`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken }) // 👈 Gửi token vào body
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        message.success("Xác minh số điện thoại thành công!");
+      } else {
+        message.error(data.message || "Lỗi xác minh phía server.");
+      }
+
+    } catch (err) {
+      console.error(err);
+      message.error("Mã OTP sai hoặc hết hạn.");
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+
+
+
   return (
-    <div style={{ maxWidth: 600, margin: "0 20px", background: "#fff", padding: 32, borderRadius: 8,  display: "flex", justifyContent: "flex-start" }}>
+    <div style={{ maxWidth: 600, margin: "0 20px", background: "#fff", padding: 32, borderRadius: 8, display: "flex", justifyContent: "flex-start" }}>
       <div style={{ width: "100%" }}>
         <Title level={3} style={{ marginBottom: 24 }}>Chỉnh sửa thông tin</Title>
         <Spin spinning={formLoading}>
@@ -136,8 +212,45 @@ const EditInfo = () => {
               <Input placeholder="Nhập tên" />
             </Form.Item>
             <Form.Item label="Số điện thoại" name="phoneNumber">
-              <Input placeholder="Nhập số điện thoại" />
+              <Input
+                placeholder="Nhập số điện thoại"
+                onChange={() => {
+                  setOtpSent(false);
+                  setConfirmationResult(null);
+                  setOtpCode("");
+                }}
+              />
             </Form.Item>
+            <Button
+              type="dashed"
+              onClick={sendOTP}
+              disabled={otpSent}
+              style={{ marginBottom: 16 }}
+            >
+              Gửi mã OTP
+            </Button>
+            <div id="recaptcha-container"></div>
+            {otpSent && (
+              <>
+                <Form.Item label="Mã OTP">
+                  <Input
+                    placeholder="Nhập mã OTP"
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value)}
+                    style={{ marginBottom: 12 }}
+                  />
+                </Form.Item>
+                <Button
+                  type="primary"
+                  onClick={verifyOTP}
+                  loading={verifying}
+                  style={{ marginBottom: 24 }}
+                >
+                  Xác minh OTP
+                </Button>
+              </>
+            )}
+
             <Form.Item label="Địa chỉ" name="address">
               <Input placeholder="Nhập địa chỉ" />
             </Form.Item>
