@@ -98,3 +98,29 @@ export const updateUser = async (id, userInfo, token) => {
         };
     }
 };
+
+export const updateUserActiveStatus = async (userId, status, token) => {
+    try {
+        const response = await axios.put(
+            `${BASE_URL}/api/update-user-active-status/${userId}/${status}`,
+            {},
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(token && { Authorization: `Bearer ${token}` }),
+                },
+            }
+        );
+        return {
+            ok: true,
+            data: response.data,
+        };
+    } catch (error) {
+        return {
+            ok: false,
+            data: {
+                errMessage: error.response?.data?.errMessage || "Có lỗi xảy ra khi cập nhật trạng thái hoạt động!",
+            },
+        };
+    }
+};
