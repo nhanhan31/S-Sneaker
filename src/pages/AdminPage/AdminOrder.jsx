@@ -12,6 +12,20 @@ const ghnStatusMap = {
     return: 'Hoàn hàng',
     cancel: 'Đã hủy',
 };
+const orderStatusMap = {
+    pending: 'Chờ xử lý',
+    paid: 'Da thanh toán',
+    refund: 'Hoàn hàng',
+    cancel: 'Đã hủy',
+};
+const orderStatusColor = (status) => {
+    switch (status) {
+        case 'pending': return 'bg-yellow-100 text-yellow-700';
+        case 'paid': return 'bg-green-100 text-green-700';
+        case 'refund': return 'bg-blue-100 text-blue-700';
+        case 'cancel': return 'bg-red-100 text-red-600';
+    }
+}
 
 const shippingStatusColor = (status) => {
     switch (status) {
@@ -143,7 +157,7 @@ const AdminOrder = () => {
                                 <td className="px-4 py-3 font-medium text-center" >{order.orderCode}</td>
                                 <td className="px-4 py-3 text-center">SNEAKERCUSTOMER{order.userId}</td>
                                 <td className="px-4 py-3 text-center">
-                                    <span className={`px-3 py-1 rounded-full font-semibold text-center ${shippingStatusColor(order.shippingStatus)}`}>
+                                    <span className={`px-3 py-1 rounded-full font-semibold text-center ${orderStatusColor(order.shippingStatus)}`}>
                                         {order.status}
                                     </span>
                                 </td>
