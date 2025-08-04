@@ -182,7 +182,7 @@ const Checkoutpage = () => {
                 return;
             }
             if (!user?.userId || !token) {
-                alert("Bạn cần đăng nhập!");
+                message.error("Bạn cần đăng nhập!");
                 return;
             }
             setLoading(true);
@@ -195,7 +195,7 @@ const Checkoutpage = () => {
             if (result.ok && result.data.paymentUrl) {
                 window.location.href = result.data.paymentUrl;
             } else {
-                alert(result.data.errMessage || "Đặt hàng thất bại, vui lòng thử lại sau!");
+                message.error(result.data.errMessage || "Đặt hàng thất bại, vui lòng thử lại sau!");
             }
         } catch (err) {
             // Nếu validateFields lỗi sẽ vào đây
@@ -219,26 +219,26 @@ const Checkoutpage = () => {
                 },
                 content: (
                     <div style={{ padding: "20px 0" }}>
-                        <div style={{ 
-                            fontSize: 18, 
-                            fontWeight: 600, 
+                        <div style={{
+                            fontSize: 18,
+                            fontWeight: 600,
                             marginBottom: 16,
                             color: "#333"
                         }}>
                             Xác nhận lưu thông tin?
                         </div>
-                        <div style={{ 
-                            fontSize: 15, 
-                            color: "#666", 
+                        <div style={{
+                            fontSize: 15,
+                            color: "#666",
                             marginBottom: 32,
                             lineHeight: 1.5
                         }}>
                             Bạn có chắc muốn lưu thông tin giao hàng này cho lần mua hàng tiếp theo không?
                         </div>
-                        <div style={{ 
-                            display: "flex", 
-                            gap: 12, 
-                            justifyContent: "flex-end" 
+                        <div style={{
+                            display: "flex",
+                            gap: 12,
+                            justifyContent: "flex-end"
                         }}>
                             <Button
                                 size="large"
@@ -354,12 +354,12 @@ const Checkoutpage = () => {
             if (status && orderCode) {
                 payosReturn({ status, orderCode, token })
                     .then(res => {
-                        message.info("Đã huỷ thanh toán" );
+                        message.info("Đã huỷ thanh toán");
                     })
                     .catch(() => {
                         message.error("Không thể xử lý trạng thái thanh toán!");
                     });
-                    sessionStorage.removeItem("cart"); 
+                sessionStorage.removeItem("cart");
             }
         }
     }, [location]);
@@ -439,7 +439,7 @@ const Checkoutpage = () => {
                                 disabled={!provinceId}
                                 optionFilterProp="children"
                             >
-                               
+
                                 {districtList.map(item => (
                                     <Select.Option key={item.DistrictID} value={item.DistrictID}>
                                         {item.DistrictName}
@@ -457,7 +457,7 @@ const Checkoutpage = () => {
                                 optionFilterProp="children"
                                 onChange={value => setWardCode(value)}
                             >
-                                
+
                                 {wardList.map(item => (
                                     <Select.Option key={item.WardCode} value={String(item.WardCode)}>
                                         {item.WardName}
@@ -466,7 +466,7 @@ const Checkoutpage = () => {
                             </Select>
                         </Form.Item>
                         <div>
-                         
+
                         </div>
                         <Form.Item name="saveInfo" valuePropName="checked" style={{ marginBottom: 24 }}>
                             <ConfigProvider

@@ -550,9 +550,9 @@ const MainLayout = () => {
                   fontSize: isMobile ? 14 : 16,
                   color: '#1da1f2'
                 }}>
-                  <TikTokOutlined onClick={() => window.open('https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.tiktok.com%2F%40s.sneaker03%3F_t%3DZS-8xVNxcOrgji%26_r%3D1%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExbU5kTUp2ZTRWQTEwWEtCWgEeckaUfMOlPU9pa8_y3U3Biik10owr7j7W0PqaEPSU6hfAkRp0s5wPnC5iVvI_aem_oycSJJIe2htTrSaA8oI44w&h=AT2b960BOuuO-9hyQpvSIOzJq5veYAin4BzOTZ3sDSeXiJXxN3aeUSCmxqf1ufF0BXSLD3Gl2ND67kNfzuF_3D_xZINBfUIoVlG0OJXtFHvLp6jHRo1gL0igVomd1SkSGEAL91PboEQEmUQ', '_blank')}/>
+                  <TikTokOutlined onClick={() => window.open('https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.tiktok.com%2F%40s.sneaker03%3F_t%3DZS-8xVNxcOrgji%26_r%3D1%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExbU5kTUp2ZTRWQTEwWEtCWgEeckaUfMOlPU9pa8_y3U3Biik10owr7j7W0PqaEPSU6hfAkRp0s5wPnC5iVvI_aem_oycSJJIe2htTrSaA8oI44w&h=AT2b960BOuuO-9hyQpvSIOzJq5veYAin4BzOTZ3sDSeXiJXxN3aeUSCmxqf1ufF0BXSLD3Gl2ND67kNfzuF_3D_xZINBfUIoVlG0OJXtFHvLp6jHRo1gL0igVomd1SkSGEAL91PboEQEmUQ', '_blank')} />
                 </span>
-                
+
                 <span style={{
                   display: 'inline-block',
                   background: '#f5f5f5',
@@ -562,7 +562,7 @@ const MainLayout = () => {
                   fontSize: isMobile ? 14 : 16,
                   color: '#4267B2'
                 }}>
-                  <FacebookFilled onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')}/>
+                  <FacebookFilled onClick={() => window.open('https://www.facebook.com/profile.php?id=61576730682285', '_blank')} />
                 </span>
               </span>
             </div>
@@ -606,7 +606,7 @@ const MainLayout = () => {
             } else {
               // Desktop: copy số điện thoại và hiển thị thông báo
               navigator.clipboard.writeText('0346522836').then(() => {
-                alert('Số điện thoại đã được sao chép vào clipboard: 0346522836');
+                message.error('Số điện thoại đã được sao chép vào clipboard: 0346522836');
                 // Có thể thêm notification ở đây
               });
             }

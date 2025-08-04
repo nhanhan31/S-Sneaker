@@ -12,6 +12,20 @@ const ghnStatusMap = {
     return: 'Hoàn hàng',
     cancel: 'Đã hủy',
 };
+const orderStatusMap = {
+    pending: 'Chờ xử lý',
+    paid: 'Da thanh toán',
+    refund: 'Hoàn hàng',
+    cancel: 'Đã hủy',
+};
+const orderStatusColor = (status) => {
+    switch (status) {
+        case 'pending': return 'bg-yellow-100 text-yellow-700';
+        case 'paid': return 'bg-green-100 text-green-700';
+        case 'refund': return 'bg-blue-100 text-blue-700';
+        case 'cancel': return 'bg-red-100 text-red-600';
+    }
+}
 
 const shippingStatusColor = (status) => {
     switch (status) {
@@ -56,6 +70,9 @@ const AdminOrder = () => {
                         };
                     })
                 );
+                // 🔽 Sắp xếp theo thời gian tạo mới nhất
+                const sortedOrders = ordersWithShipping.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setOrders(sortedOrders);
                 setOrders(ordersWithShipping);
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
@@ -126,7 +143,7 @@ const AdminOrder = () => {
                         <tr>
                             <th className="px-4 py-3 font-semibold">Mã đơn hàng</th>
                             <th className="px-4 py-3 font-semibold">Mã khách hàng</th>
-                            <th className="px-4 py-3 font-semibold">Shipping Status</th>
+                            <th className="px-4 py-3 font-semibold">Order Status</th>
                             <th className="px-4 py-3 font-semibold">Tổng tiền</th>
                             <th className="px-4 py-3 font-semibold">Mã vận đơn</th>
                             <th className="px-4 py-3 font-semibold">Mã giảm giá</th>
@@ -138,10 +155,10 @@ const AdminOrder = () => {
                         {currentOrders.map((order, idx) => (
                             <tr key={idx} className="hover:bg-gray-50">
                                 <td className="px-4 py-3 font-medium text-center" >{order.orderCode}</td>
-                                <td className="px-4 py-3 text-center">{order.userId}</td>
+                                <td className="px-4 py-3 text-center">SNEAKERCUSTOMER{order.userId}</td>
                                 <td className="px-4 py-3 text-center">
-                                    <span className={`px-3 py-1 rounded-full font-semibold text-center ${shippingStatusColor(order.shippingStatus)}`}>
-                                        {order.shippingLabel}
+                                    <span className={`px-3 py-1 rounded-full font-semibold text-center ${orderStatusColor(order.shippingStatus)}`}>
+                                        {order.status}
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 font-mono text-center" >{order.totalPrice?.toLocaleString('vi-VN') || 'N/A'}</td>
