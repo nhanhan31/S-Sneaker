@@ -1,4 +1,4 @@
-import { ShoppingCart, LogOut, TrendingUp, Package } from 'lucide-react';
+import { ShoppingCart, LogOut, TrendingUp, Package, UserCog } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AdminSideBar = ({ onClose, isMobile, isTablet, isXS, isNonDesktop }) => {
@@ -149,7 +149,7 @@ const AdminSideBar = ({ onClose, isMobile, isTablet, isXS, isNonDesktop }) => {
                     onClick={() => handleNavigation('/admin/user')}
                 >
                     <div className="flex items-center">
-                        <Package className={`mr-3 ${isXS ? 'w-3 h-3' : isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
+                        <UserCog className={`mr-3 ${isXS ? 'w-3 h-3' : isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
                         <span className={`font-medium ${isXS ? 'text-xs' : isMobile ? 'text-sm' : 'text-base'}`}>
                             Users
                         </span>

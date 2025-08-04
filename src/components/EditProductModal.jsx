@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, Select, Upload, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { updateProduct } from '../utils/productApi';
+import { updateProduct, getAllCategories, getAllBrands } from '../utils/productApi';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -11,33 +11,53 @@ const EditProductModal = ({ visible, onCancel, onSuccess, product }) => {
   const [loading, setLoading] = useState(false);
   const [productImage, setProductImage] = useState(null);
   const [productDetailImages, setProductDetailImages] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     if (visible && product) {
-      // Reset form and set initial values
-      console.log('Setting form values:', product); // Debug log
+      loadCategoriesAndBrands();
+      
+      console.log('Setting form values:', product);
       form.setFieldsValue({
         productName: product.productName,
         description: product.description,
         price: product.price,
-        categoryId: product.categoryId, // Sử dụng trực tiếp từ product object
-        brandId: product.brandId, // Sử dụng trực tiếp từ product object
+        categoryId: product.categoryId,
+        brandId: product.brandId,
         isArrivals: product.isArrivals,
         gender: product.gender,
         weight: product.weight
       });
       
-      // Reset file states
       setProductImage(null);
       setProductDetailImages([]);
     }
   }, [visible, product, form]);
 
+  const loadCategoriesAndBrands = async () => {
+    try {
+      const [categoriesResult, brandsResult] = await Promise.all([
+        getAllCategories(),
+        getAllBrands()
+      ]);
+
+      if (categoriesResult.ok) {
+        setCategories(categoriesResult.data.category || []);
+      }
+
+      if (brandsResult.ok) {
+        setBrands(brandsResult.data.brands || []);
+      }
+    } catch (error) {
+      console.error('Error loading categories and brands:', error);
+    }
+  };
+
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
       
-      // Kiểm tra bắt buộc phải có ảnh chi tiết mới
       if (!productDetailImages || productDetailImages.length === 0) {
         message.error('Vui lòng chọn ít nhất 1 ảnh chi tiết mới để cập nhật!');
         setLoading(false);
@@ -135,18 +155,30 @@ const EditProductModal = ({ visible, onCancel, onSuccess, product }) => {
 
         <Form.Item
           name="categoryId"
-          label="Danh mục ID"
-          rules={[{ required: true, message: 'Vui lòng nhập ID danh mục!' }]}
+          label="Danh mục"
+          rules={[{ required: true, message: 'Vui lòng chọn danh mục!' }]}
         >
-          <InputNumber style={{ width: '100%' }} placeholder="Nhập ID danh mục" min={1} />
+          <Select placeholder="Chọn danh mục" style={{ width: '100%' }}>
+            {categories.map((category) => (
+              <Option key={category.CategoryId} value={category.CategoryId}>
+                {category.description}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item
           name="brandId"
-          label="Thương hiệu ID"
-          rules={[{ required: true, message: 'Vui lòng nhập ID thương hiệu!' }]}
+          label="Thương hiệu"
+          rules={[{ required: true, message: 'Vui lòng chọn thương hiệu!' }]}
         >
-          <InputNumber style={{ width: '100%' }} placeholder="Nhập ID thương hiệu" min={1} />
+          <Select placeholder="Chọn thương hiệu" style={{ width: '100%' }}>
+            {brands.map((brand) => (
+              <Option key={brand.brandId} value={brand.brandId}>
+                {brand.brandName}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -210,7 +242,6 @@ const EditProductModal = ({ visible, onCancel, onSuccess, product }) => {
           <div style={{ marginBottom: 8, fontSize: 12, color: '#666' }}>
             Ảnh hiện tại: {(() => {
               try {
-                // Parse JSON string to array
                 const detailImages = product.productDetailImg 
                   ? (typeof product.productDetailImg === 'string' 
                       ? JSON.parse(product.productDetailImg) 

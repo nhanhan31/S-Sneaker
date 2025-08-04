@@ -122,3 +122,35 @@ export const updateProduct = async (productId, productData) => {
     throw error;
   }
 };
+
+// Thêm API lấy tất cả category
+export const getAllCategories = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/get-all-category`);
+    return {
+      ok: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      data: error.response?.data || { errMessage: "Lỗi khi lấy danh sách category" },
+    };
+  }
+};
+
+// Thêm API lấy tất cả brand
+export const getAllBrands = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/get-all-brands`);
+    return {
+      ok: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      data: error.response?.data || { errMessage: "Lỗi khi lấy danh sách thương hiệu" },
+    };
+  }
+};
